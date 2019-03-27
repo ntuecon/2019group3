@@ -42,20 +42,22 @@ class Consumer (object):
             sum_goodU += unsummed_goodU[i]
         goodUtility = sum_goodU ** ((1-self.sigma)/self.gamma)
 
-
         #factor part of the utility function
         unsummed_factorU = numpy.empty(len(Vhf))
         j = 0
         for j in range(0,len(Vhf)):
             unsummed_factorU[j] = self.beta * ((Vhf[j]**(self.theta+1))/(self.theta + 1))
+            
         sum_factorU = 0
         i = 0
         for i in range(0,len(unsummed_factorU)):
             sum_factorU += unsummed_factorU[i]
 
+            factorUtility = sum_factorU
+
 
         #combining both parts to calculate utiliy
-        utility = sum_goodU + sum_factorU
+        utility = goodUtility - factorUtility
 
         return utility
 
@@ -152,4 +154,30 @@ guess =[0,0,0,0,0,0,0]
 sol = c1.maxUtility(pi,p,r,guess)
 
 print (sol)
+
+
+
+print "--------- TEST PROBLEM---------"
+
+#Test scenario for one good and one factor
+c2 = Consumer(2,2,0.5,0.5,2,0.1,2)
+p2 = [2]
+r2 = [7]
+pi2 = 70
+guess2 = [1,17,5,3]
+
+sol2 = c2.maxUtility(pi2,p2,r2,guess2)
+
+print(sol2)
+
+print "------- TEST Utility FCT-----"
+
+
+ut = c2.utilityFunction(guess2)
+print ut
+
+
+
+            
+    
 
