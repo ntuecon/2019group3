@@ -1,7 +1,66 @@
+#Here we try to find the equilibrium, and the value of the factors to clear the market.
+
+import numpyp as np
+from spicy.optimize import minimize
+
+"""We import from simpy so that we can do symbolic math. That means python will read our letters as symbols
+because that is how we defined the variables"""
+
+from sympy import *
+Xhg  = symbols('Xhg')
+Vhf = symbols('Vhf')
+
+"""We want to maximize the sum of the utilities or use the utilitarian approach
+, subject to the constant utilities of all other individuals and the quantity
+available, that is dependent on the production function"""
+
 
 #Assumption 1: the more goods the better
 # We take the utilitarian Social Welfare function
 W [U^h (Xhg ; Vhf )] = SUM from h=1 to H  U^h (Xhg ; Vhf )
+
+
+class market_clearence (Xhg, Vhf) :
+ 
+ if demand - supply = 0
+  return "market cleared"
+
+ if excess_demand == 0
+  return "market cleared"
+
+ else:
+  return "unable to clear market"
+
+  result = []
+  for in 
+  append 
+  return result
+
+
+
+#We want to maximize the utility, subject to some contraints.
+
+
+#from grou p 2018 
+ def utility_max(self):
+        import numpy as np
+        from scipy.optimize import minimize
+        """
+        1.The package of minimize can be use as maximize ,if the
+        objective function is multiply by -1.
+        2."cons" set as the constrain of optimization problem.
+        3.If we use SLSQP method, the jacobian of objective function is necessary.
+        The jacobian means the partial derivative of every independent variables. 
+        """
+        #GFvec=[[]]*(self.ng+self.nf)
+        """res = minimize(self.utility, np.ones(self.ng+self.nf), args=(-1.0,),"""
+        res = minimize(self.utility, [10.0]*(self.ng+self.nf), args=(-1.0,),
+                       constraints=self.cons(), method='SLSQP', options={'disp': True})
+        return res.x
+       
+
+       #Testing the economy 
+print "---------------TEST-----------------"
 
 #We want to maximize the welfare
 max W ( U (Xhg (+) , V1f (-) ) )
@@ -34,14 +93,4 @@ def __call__(self, X):
         This makes the utility function a callable function
         '''
 
-### from 2018groupCE
-def market_clearence (Xhg, Vhf) :
-if Xhg  == Vhf:
-  return "market cleared"
-else:
-  return "unable to clear market"
 
-  result = []
-  for in 
-  append 
-  return result
