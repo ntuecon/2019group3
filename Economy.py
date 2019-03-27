@@ -9,18 +9,86 @@ because that is how we defined the variables"""
 from sympy import *
 Xhg  = symbols('Xhg')
 Vhf = symbols('Vhf')
+#This is the amounts of goods and factors
+X = symbols ('X')
+V = sumbols ('V')
+#This is the total number of goods in the economy
+X**g = symbols ('X**g')
+#This is the factors f used in the production of good g
+r= symbols ('r')
+#These are variables that are going to help us with the Langrangian way of solving the maximization problem 
+μ= symbols ('μ')
+σ = symbols ('σ')
+π= symbols ('π')
+
+""" We define a class that is the consumer. What characterizes him is the amount he consumes and the amount of factor he supplies"""
+
+class consumer (object):
+ def __init__ (self, X,V)
+   self.X = X
+   self.V = V
+ 
+ #This should work at least for two consumers, I am not sure if for more than two. Would there be a way to iterate through it if not?
+ 
+ def __add__ (self, other):
+  total_consumption = self.X + other.X
+  total_factors = self.V + other.V
+  return consumer (total_consumption, total_factors)
+ 
+ def __radd__ (self, other):
+    if other == 0:
+        return self
+    else
+        return self.__add__(other)
+   
+  def __str__(self):
+        return " Total consumption: %i, Total factors: %i" % (self.total_consumption, self.total_factors)
+
+ 
+ #from the internet, might be helpful sometime
+# http://www.marinamele.com/2014/04/modifying-add-method-of-python-class.html
+ class vector(object):
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+     
+    def __add__(self, other):
+        if other == 0:
+            return self
+        else:
+            return vector(self.x+other.x, self.y+other.y)
+ 
+#now we would definy his utility function
+ def utility_of_the_consumer (X,V)
+result = X - V
+return result 
+
+#now we define the producer. what makes him him is the amount of goods he produces"""
+class producer (object):
+ def __init__ (self, profit)
+ self.profit = profit
 
 """We want to maximize the sum of the utilities or use the utilitarian approach
 , subject to the constant utilities of all other individuals and the quantity
 available, that is dependent on the production function"""
 
 
-#Assumption 1: the more goods the better
-# We take the utilitarian Social Welfare function
-W [U^h (Xhg ; Vhf )] = SUM from h=1 to H  U^h (Xhg ; Vhf )
+# We take the utilitarian Social Welfare function, #Assumption 1: the more goods the better (add maybe more assumptinos of the utilitarian approach)
+# W [U**h (Xhg ; Vhf )] = SUM from h=1 to H  U**h (Xhg ; Vhf )
 
+""" The market is cleared when 
+all goods consumed = all goods produced (depends on factors supplied)
+AND
+all factors supplied = all factors used in producing all goods"""
 
-class market_clearence (Xhg, Vhf) :
+""" So we will create a class that is utility function, and another that is the production function and then we create a subclass that is the 
+market clearence classs that inherits from both of this classes"""
+
+class market_clearence (consumer, producer) :
+ 
+ 
  
  if demand - supply = 0
   return "market cleared"
