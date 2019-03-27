@@ -23,8 +23,9 @@ class Consumer (object):
     #This function calculates the utility for the consumer object the parameteres specified in the object
     #and the amount of consumed goods (Xhg) and factors supply (Vhf)
     #Xhg and Vhf are both one dimensional arrays with length of the number of goods / factors for this specific consumer
+
     
-    def utilityFunction (self, inputList):
+    def utilityFunction (self,inputList):
 
         #seperate good array (Xhg) from factor array (Vhf) goods come first
         Xhg = numpy.array(inputList[0:self.noOfGoods])
@@ -58,14 +59,14 @@ class Consumer (object):
 
         return utility
 
-    def invertedUtility (self, inputList):
-        return (-1)*utilityFunction (inputList)
+    def invertedUtility (self, inputList, args):
+        return (-1)*self.utilityFunction(inputList)
 
     #This function models the budget restriction of the consumer which is determined
     #by prices of goods(p) and factors (r) as well as the profit the consumer gets
     #allocated with (pi). This is an equality constraint where budget = 0. 
     
-    def constraint(pi, p, r, Xhg, Vhf):
+    def constraint(self, pi, p, r, Xhg, Vhf):
 
         # r*Vhf for every factor
         factorArray = numpy.empty(len(r))
@@ -89,13 +90,13 @@ class Consumer (object):
             
         budget = sumFactorBudget - sumGoodBudget + pi
         
-
     #This function maximizes the utility function for a given pi, p and r
     def maxUtility(self, pi, p, r, guess):
         budgetCon = {'type' : 'eq', 'fun' : self.constraint}
-        con = [budgetCon]
-        solution = minimize(self.invertedUtility, guess, con)
+        constraint = [budgetCon]
+        solution = minimize(self.invertedUtility, guess, constraint)
         return solution
+
     
 
 #Testing the utility function
@@ -135,6 +136,10 @@ resultU = c1.utilityFunction(inputList)
 print "RESULT"
 print resultU
 
+print "CHECK CALLABLE"
+boo = callable(c1.invertedUtility)
+print boo
+
 #test maximization
 print "TEST MAXIMIZATION--------------------------"
 
@@ -144,9 +149,7 @@ r = [2,9,2,7]
 pi = 14
 guess =[0,0,0,0,0,0,0]
 
-sol = c1.maxUtility( pi,p,r,guess)
+sol = c1.maxUtility(pi,p,r,guess)
 
 print (sol)
 
-
-            
