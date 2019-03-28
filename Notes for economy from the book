@@ -1,0 +1,41 @@
+ For example,
+if X is the only good, and L, labor, is the only factor, the utility of person h
+might be represented as:
+U h Uh(Xh; 24-Lh)
+
+
+Utility functions are always assumed to be continuous, strictly quasi-concave, and twice
+differentiable, with all goods and factors infinitely divisible. 
+
+THE PARETO-OPTIMAL CONDITIONS : existence of an allocation of resources such that no one consumer can be
+made better off by a reallocation of resources without simultaneously making
+at least one other consumer worse off. 
+
+#Which I would say only means that all existing products have to be consumed. 
+
+This interpretation indicates that the set of pareto-optimal allocations
+for all H individuals can be determined by solving the following problem
+algebraically: Hold everyone's utility constant except for one person, arbitrarily chosen to be person 1. Maximize person l's utility subject to the constraints that all other utilities are held constant. Include as additional
+constraints the G production technologies and the G + F market clearance
+requirements. 
+
+max
+(Xhg; Vhf; xg; rgf)
+s.t.
+u ~ (xlg; vie)
+~h wh(Xhg; Vhf) h 2, ..., H
+X g qb g (rgr) g 1, ..., G
+H
+Xhg X g g 1, ..., G
+h 1
+H G
+Vhf ~ rgf f 1, ..., F 
+
+But the constraints imposed upon utility levels of persons h 2,..., H, the W h, are
+entirely arbitrary. Placing at least one of these consumers at a different utility
+level and solving the model again generates a different allocation of resources,
+so long as the new constraints permit a feasible solution (U 1 () _> 0). Since the
+utility constraints can be reset in infinitely many ways, solutions to the
+constrained optimum problem generate an infinity of feasible solutions in 
+40 EQUITY: THE SOCIALWELFARE FUNCTION AND OPTIMAL DISTRIBUTION OF INCOME
+general, all points on the utility-possibilities frontier. 
