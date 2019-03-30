@@ -27,6 +27,8 @@ class Consumer (object):
     
     def utilityFunction (self,inputList):
 
+        print "---------- CALCULATING UTILITY ---------- "
+
         #seperate good array (Xhg) from factor array (Vhf) goods come first
         Xhg = numpy.array(inputList[0:self.noOfGoods])
         Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
@@ -61,40 +63,83 @@ class Consumer (object):
 
         return utility
 
-    def invertedUtility (self, inputList, args):
+    def invertedUtility (self, inputList, pi, p, r):
+        print "----------------START INVERTED UTILITY----------"
         return (-1)*self.utilityFunction(inputList)
 
     #This function models the budget restriction of the consumer which is determined
     #by prices of goods(p) and factors (r) as well as the profit the consumer gets
     #allocated with (pi). This is an equality constraint where budget = 0. 
     
-    def constraint(self, pi, p, r, Xhg, Vhf):
+    def constraint(self,inputList, pi, p, r):
+        "------CHECKING CONSTRAINT -------"
+        
+        Xhg = numpy.array(inputList[0:self.noOfGoods])
+        Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
 
         # r*Vhf for every factor
         factorArray = numpy.empty(len(r))
-        for i in (0, range(factorArray)):
+        for i in range(0,len(factorArray)):
             factorArray[i] = r[i]*Vhf[i]
 
         #sum of income through factors for consumer
         sumFactorBudget = 0
-        for k in (0, range(factorArray)):
+        for k in range(0,len(factorArray)):
             sumFactorBudget += factorArray[k]
 
         #p*Xhg for every good
         goodArray = numpy.empty(len(p))
-        for j in (0, range(len(goodArray))):
+        for j in range(0,len(goodArray)):
             goodArray[j] = p[j]*Xhg[j]
 
         #sum of money spent on goods for consumer
         sumGoodBudget = 0
-        for l in (0, range(len(goodArray))):
+        for l in range(0,len(goodArray)):
             sumGoodBudget += goodArray[l]
             
         budget = sumFactorBudget - sumGoodBudget + pi
+
+
+
+    def testfun (self, inputList):
+        return inputList[0]*inputList[1]
+
         
     #This function maximizes the utility function for a given pi, p and r
     def maxUtility(self, pi, p, r, guess):
-        budgetCon = {'type' : 'eq', 'fun' : self.constraint}
+        print "--------- START SOLVING CONSUMER PROBLEM -----------"
+        budgetCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (pi,p,r,)}
         constraint = [budgetCon]
-        solution = minimize(self.invertedUtility, guess, constraint)
+        solution = minimize(self.invertedUtility, guess, args = (), method = 'trust-constr', constraints = constraint)
         return solution.x
+
+    
+
+    
+
+#Testing
+
+print "----STARTING TEST---"
+
+print "TESTING INVERTED UTILITY"
+
+c = Consumer(1,1,0.5,0.5,2,1,1)
+
+pi = 10
+p = [1]
+r = [4]
+
+guess = [5,9]
+
+u = c.invertedUtility(guess, pi, p, r)
+
+print u
+
+sol = c.maxUtility(pi,p,r,guess)
+
+print sol
+
+            
+    
+
+
