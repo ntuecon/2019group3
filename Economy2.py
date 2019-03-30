@@ -6,7 +6,7 @@ from sympy import *
 #We initialize 
 
 #where Xg and Vg are the total numbers of goods and factors in the economy
-class market_clearing (object):
+class market_clearing ():
   Xhg  = symbols('Xhg')
   Vhf = symbols('Vhf')
   Xg = symbols ('Xg')
