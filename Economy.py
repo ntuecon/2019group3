@@ -160,5 +160,46 @@ def __call__(self, X):
         i=0,1,2,...,H
         This makes the utility function a callable function
         '''
+  
+  
+
+  def __init__(self,Xhg,Vhf,  Xg , Vg):
+    self.Xhg = Xhg
+    self.Vhf = Vhf
+    self.Xg = Xg
+    self.Vg = Vg
+    
+  #now we create the equilibrium method
+  
+  def obective1 (Xhg, Xg):
+    def maxUtility(self, pi, p, r, guess):
+    def profit
+    return (Xhg - Xg) **2
+  
+  #now we make a guess
+  
+  X = [1,2]
+  
+  print (obective1 (X))
+  
+  sol = minimize (objective)
+    
+    def obective2 (Vhg, Vg):
+    def maxUtility(self, pi, p, r, guess):
+    def profit
+    return (Vhg - Vg) **2
+  
+  #Now we compute the wellfare function as the outcome of this allocation
+  # we use the maxUtility method 
+  
+  for h in consumer:
+    maxUtility = 0
+    maxUtility += maxUtility
+    return maxUtility
+  
+  
+  
+  
+
 
 
