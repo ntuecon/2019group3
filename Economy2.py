@@ -5,9 +5,10 @@ from sympy import *
 
 #We initialize 
 
-#where Xg1 and V are the maximized goods and factors by the consumers according to their utility (Michelle)
-#and Xg2 and V2 are maximed production of goods produced by the factors given by the profit function (Ricky)
-
+#where Xg1 and V1 are the maximized goods and factors by the consumers
+#Their values come from their maximized utility (Michelle's code)
+#Xg2 and V2 are the total goods produced and the total factors used 
+#Their values come from their maximized utility (Ricky's code)
 
 class market_clearing ():
  
