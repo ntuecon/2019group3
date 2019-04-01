@@ -2,38 +2,64 @@ import numpy as np
 from scipy.optimize import minimize, fmin
 import matplotlib as plt
 from sympy import *
+import array
 
-#We initialize 
+#Construction
+#Defining variables
+#Mainly CON and PROD
+#both are an array with two columns.
+#the first for goods, the second for factors,
+#and the rows represent the number of consumers.
+#both depend on price, profit and factors provided (p,pi,r)
+#CON is the consumer allocation, given by the MaxUtility function (Michelle's code)
+#PROD is the producer prefered allocationan, given by the MaxProfit function (Ricky's code)
 
-#where Xg1 and V1 are the maximized goods and factors by the consumers
-#Their values come from their maximized utility (Michelle's code)
-#Xg2 and V2 are the total goods produced and the total factors used 
-#Their values come from their maximized utility (Ricky's code)
 
 class market_clearing ():
  
-  pi = symbols ('pi')
-  p = symbols ('p')
-  r = symbols ('r')
+    pi = symbols ('pi')
+    p = symbols ('p')
+    r = symbols ('r')
+    CON = array()
+    PROD = array()
+    
+
+#where CON is the consumer allocation, an array with two columns.
+#The first for goods, the second for factors
+#and the rows are the number of consumers
+#where PROD is the producer prefered allocation, an array with two columns.
+#The first for goods, the second for factors
+#and the rows are the number of producers
   
-  """where CON is the consumer allocation, an array with two columns, the first for goods, the second for factors,
-  and the rows are the number of consumers"""
-  """where PROD is the producer prefered allocation, an array with two columns, the first for goods, the second for factors,
-  and the rows are the number of producers"""
   
-  CON = maxUtility (pi, p, r)
-  PROD = maxProfit (pi, p, r)
+
+    def __init__(self,CON,PROD):
+        self.CON = CON
+        self.PROD = PROD
+        CON = maxUtility (pi, p, r)
+        PROD = maxProfit (pi, p, r)
   
+        
+
 #For ONE consumer and one producer, we need to get the respective values for X and V so as to see the difference (excess demand or supply)
 #For goods
 
-def sqrt_excess_goods_f (CON, PROD)
-  return (CON [0] - PROD [0])**2
+    def sqrt_excess_goods_f (CON, PROD):
+        sqrt_excess_goods = (CON [0] - PROD [0])**2
+        return sqrt_excess_goods
+        print str(sqrt_excess_goods)
+
 
 #For factors
-def sqrt_excess_factors_f (CON,PROD)
-  return (CON [1] - PROD [1])**2
+        
+    def sqrt_excess_factors_f (CON,PROD):
+        sqrt_excess_factors = (CON [1] - PROD [1])**2
+        return sqrt_excess_factors
+        print str(sqrt_excess_factors)
+    
 
+  
+  
 #Initial guess
 x0 = np.array[1,2]
 
