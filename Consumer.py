@@ -55,7 +55,7 @@ class Consumer (object):
         for i in range(0,len(unsummed_factorU)):
             sum_factorU += unsummed_factorU[i]
 
-            factorUtility = sum_factorU
+        factorUtility = sum_factorU
 
 
         #combining both parts to calculate utiliy
