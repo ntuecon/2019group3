@@ -4,152 +4,73 @@ import matplotlib as plt
 from sympy import *
 import array
 
-#Construction
-#Defining variables
-#Mainly CON and PROD
-#both are an array with two columns.
-#the first for goods, the second for factors,
-#and the rows represent the number of consumers.
-#both depend on price, profit and factors provided (p,pi,r)
-#CON is the consumer allocation, given by the MaxUtility function (Michelle's code)
-#PROD is the producer prefered allocationan, given by the MaxProfit function (Ricky's code)
+# When asked, CON and PROD both give arrays with columns. 
+# the first for maximized goods, the second for maximized factors.
+# producer adds a profit as the third column.
 
-
-class market_clearing ():
+class market_clearing (Consumer, Producer):
  
-    pi = symbols ('pi')
-    p = symbols ('p')
-    r = symbols ('r')
-    CON = array()
-    PROD = array()
-    
+#We define those variables that are inherit from the Consumer, MIchelle's Code, and Producer, Ricky's code class.
 
-#where CON is the consumer allocation, an array with two columns.
-#The first for goods, the second for factors
-#and the rows are the number of consumers
-#where PROD is the producer prefered allocation, an array with two columns.
-#The first for goods, the second for factors
-#and the rows are the number of producers
-  
-  
-
-    def __init__(self,CON,PROD):
-        self.CON = CON
-        self.PROD = PROD
-        CON = maxUtility (pi, p, r)
-        PROD = maxProfit (pi, p, r)
-  
-        
-
-#For ONE consumer and one producer, we need to get the respective values for X and V so as to see the difference (excess demand or supply)
+ p = 0
+ r = 0
+ AskProd = maxProfit (self,p,r)
+ #Depending on Producers result, get pi.
+ pi = maxProfit.pi
+ AskCon = maxUtility(self, pi, p, r)
+      
+   
+#For ONE good and one factor, we need to get the respective values for X and V so as to see the difference (excess demand or supply)
 #For goods
 
-    def sqrt_excess_goods_f (CON, PROD):
-        sqrt_excess_goods = (CON [0] - PROD [0])**2
+    def sqrt_excess_goods_f (AskProd, AskCon):
+        sqrt_excess_goods = (AskCon [0] - Askprod [0])**2
         return sqrt_excess_goods
         print str(sqrt_excess_goods)
 
 
 #For factors
         
-    def sqrt_excess_factors_f (CON,PROD):
-        sqrt_excess_factors = (CON [1] - PROD [1])**2
+    def sqrt_excess_factors_f (AskCon,AskProd):
+        sqrt_excess_factors = (AskCon [1] - AskProd [1])**2
         return sqrt_excess_factors
         print str(sqrt_excess_factors)
-    
-
-  
-  
-#Initial guess
-x0 = np.array[1,2]
-
-#If we were to do it for MORE THAN 1, maybe like this? I don't know if it will do it in order, and if so, how to make sure it does.
-def sqrt_excess_goods_f (CON, PROD)
-for i in CON:
- for i in PROD:
-   return (CON [0][i] - PROD [0][i])**2
-  
-def sqrt_excess_factors_f (CON,PROD)
-for i in CON:
- for i in PROD:
-   return (CON [1][i] - PROD [1][i])**2
-  
-  #Initial guess
-x0 = np.array[[1,2,3,4],[1,2,3,4]]
+ 
+ # Find prices and wages that minimize to 0 this difference
 
 
-
-
-#Now the minimum point 
-#OPTION 1 = the curve_fit method. It will only find the nearest local minimum (greedy method), but it will graph it, yay.
+#Use the curve_fit method. It will only find the nearest local minimum (greedy method), but it will graph it, yay.
 #For goods
 
-print optimization.curve_fit(sqrt_excess_goods_f, CON, PROD, x0)
+print optimization.curve_fit(sqrt_excess_goods_f, AskCon, AskProd, x0)
 
 #For factors
-print optimization.curve_fit(sqrt_excess_factors_f, CON, PROD, x0)
+print optimization.curve_fit(sqrt_excess_factors_f, AskCon, AskProd, x0)
+
 
 #if we use this method, we will have to read from the graph and input the results to find total utility
 #this should work for more than one producer and one consumer
-class total_utility (CON, PROD):
-  for i in range [0,len(CON)]:
-    ResultForGoods = raw_input("Where is the minimum value")
-    TotalGoods = 0
-    TotalGoods += ResultForGoods
-    return TotalGoods
-  for i in range [0,len(CON)]:
-    ResultForFactors = raw_input ("Where is the minimum value")
-    TotalFactors = 0
-    TotalFactors += ResultForFactors
-    return TotalFactors
+  def total_utility (AskCon, AskProd):
+    for i in range [0,len(AskCon)]:
+      ResultForGoods = raw_input("At which p and r, is the difference 0")
+      TotalGoods = 0
+      TotalGoods += ResultForGoods
+      return TotalGoods
+     
+    for i in range [0,len(AskProd)]:
+      ResultForFactors = raw_input ("At which p and r, is the difference 0")
+      TotalFactors = 0
+      TotalFactors += ResultForFactors
+      return TotalFactors
   
   together = total_utility(TotalGoods,TotalFactors)
 
   def GlobalUtility (together):
-  global_utility = together.maxUtility(pi,p,r,guess)
-  return global_utility
+    global_utility = together.maxUtility(pi,p,r,guess)
+    return global_utility
   print "%s is the amount of happiness of this society" %global_utility
   
-#OPTION 2 = Nelder-Mead Simplex algorithm "because it does not use any gradient evaluations, it may take longer to find the minimum."
-#For one
 
-def mimimization ():
-
-  res1 = minimize(sqrt_excess_goods_f, x0, method='nelder-mead',
-               options={'xtol': 1e-8, 'disp': True})
-  result1= res1.x
-  res2 = minimize(sqrt_excess_factors_f, x0, method='nelder-mead',
-               options={'xtol': 1e-8, 'disp': True})
-  result2= res2.v
-
-#For many
-
-class AllUtility():
-  CON = maxUtility (pi, p, r)
-  PROD = maxProfit (pi, p, r)
-    def sqrt_excess_goods_f (CON, PROD)
-      for i in CON:
-        for i in PROD:
-        resultA= (CON [0][i] - PROD [0][i])**2
-        goods =0
-        goods += resultA
-        return goods 
-  
-    def sqrt_excess_factors_f (CON,PROD)
-       for i in CON:
-         for i in PROD:
-         resultB= (CON [1][i] - PROD [1][i])**2
-         factors =0
-         factors += resultb
-         return factors
-  
-  
-     yiqi = all_utility(goods,factors)
-
-    def UniversalUtility (together):
-    universe_utility = yiqi.maxUtility(pi,p,r,guess)
-    return universe_utility
-    print "%s is the amount of happiness of this society" %universe_utility
 
 
 
