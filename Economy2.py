@@ -36,39 +36,52 @@ class market_clearing (Consumer, Producer):
         return sqrt_excess_factors
         print str(sqrt_excess_factors)
  
- # Find prices and wages that minimize to 0 this difference
+# Find prices and wages that minimize to 0 this difference
 
 
-#Use the curve_fit method. It will only find the nearest local minimum (greedy method), but it will graph it, yay.
-#For goods
+#OPTION 2 = Nelder-Mead Simplex algorithm "because it does not use any gradient evaluations, it may take longer to find the minimum."
+#For one
 
-print optimization.curve_fit(sqrt_excess_goods_f, AskCon, AskProd, x0)
+def mimimization ():
 
-#For factors
-print optimization.curve_fit(sqrt_excess_factors_f, AskCon, AskProd, x0)
+  res1 = minimize(sqrt_excess_goods_f, x0, method='nelder-mead',
+               options={'xtol': 1e-8, 'disp': True})
+  result1= res1.x
+  res2 = minimize(sqrt_excess_factors_f, x0, method='nelder-mead',
+               options={'xtol': 1e-8, 'disp': True})
+  result2= res2.v
 
+#For many
 
-#if we use this method, we will have to read from the graph and input the results to find total utility
-#this should work for more than one producer and one consumer
-  def total_utility (AskCon, AskProd):
-    for i in range [0,len(AskCon)]:
-      ResultForGoods = raw_input("At which p and r, is the difference 0")
-      TotalGoods = 0
-      TotalGoods += ResultForGoods
-      return TotalGoods
-     
-    for i in range [0,len(AskProd)]:
-      ResultForFactors = raw_input ("At which p and r, is the difference 0")
-      TotalFactors = 0
-      TotalFactors += ResultForFactors
-      return TotalFactors
+class AllUtility():
+  CON = maxUtility (pi, p, r)
+  PROD = maxProfit (pi, p, r)
+    def sqrt_excess_goods_f (CON, PROD)
+      for i in CON:
+        for i in PROD:
+        resultA= (CON [0][i] - PROD [0][i])**2
+        goods =0
+        goods += resultA
+        return goods 
   
-  together = total_utility(TotalGoods,TotalFactors)
+    def sqrt_excess_factors_f (CON,PROD)
+       for i in CON:
+         for i in PROD:
+         resultB= (CON [1][i] - PROD [1][i])**2
+         factors =0
+         factors += resultb
+         return factors
+  
+  
+     yiqi = all_utility(goods,factors)
 
-  def GlobalUtility (together):
-    global_utility = together.maxUtility(pi,p,r,guess)
-    return global_utility
-  print "%s is the amount of happiness of this society" %global_utility
+    def UniversalUtility (together):
+    universe_utility = yiqi.maxUtility(pi,p,r,guess)
+    return universe_utility
+    print "%s is the amount of happiness of this society" %universe_utility
+
+
+
   
 
 
