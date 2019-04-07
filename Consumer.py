@@ -1,4 +1,5 @@
 
+
 import numpy
 from scipy.optimize import minimize 
 
@@ -27,7 +28,6 @@ class Consumer (object):
     
     def utilityFunction (self,inputList):
 
-        print "---------- CALCULATING UTILITY ---------- "
 
         #seperate good array (Xhg) from factor array (Vhf) goods come first
         Xhg = numpy.array(inputList[0:self.noOfGoods])
@@ -63,8 +63,8 @@ class Consumer (object):
 
         return utility
 
-    def invertedUtility (self, inputList, pi, p, r):
-        print "----------------START INVERTED UTILITY----------"
+    def invertedUtility (self, inputList,pi,p,r):
+
         return (-1)*self.utilityFunction(inputList)
 
     #This function models the budget restriction of the consumer which is determined
@@ -72,7 +72,7 @@ class Consumer (object):
     #allocated with (pi). This is an equality constraint where budget = 0. 
     
     def constraint(self,inputList, pi, p, r):
-        "------CHECKING CONSTRAINT -------"
+
         
         Xhg = numpy.array(inputList[0:self.noOfGoods])
         Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
@@ -99,6 +99,8 @@ class Consumer (object):
             
         budget = sumFactorBudget - sumGoodBudget + pi
 
+        return budget
+
 
 
     def testfun (self, inputList):
@@ -110,36 +112,9 @@ class Consumer (object):
         print "--------- START SOLVING CONSUMER PROBLEM -----------"
         budgetCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (pi,p,r,)}
         constraint = [budgetCon]
-        solution = minimize(self.invertedUtility, guess, args = (), method = 'trust-constr', constraints = constraint)
+        solution = minimize(self.invertedUtility, guess, args = (pi,p,r), method = 'SLSQP', constraints = constraint)
         return solution.x
 
-    
-
-    
-
-#Testing
-
-print "----STARTING TEST---"
-
-print "TESTING INVERTED UTILITY"
-
-c = Consumer(1,1,0.5,0.5,2,1,1)
-
-pi = 10
-p = [1]
-r = [4]
-
-guess = [5,9]
-
-u = c.invertedUtility(guess, pi, p, r)
-
-print u
-
-sol = c.maxUtility(pi,p,r,guess)
-
-print sol
-
-            
     
 
 
