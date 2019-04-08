@@ -39,15 +39,19 @@ class market_clearing (Consumer, Producer):
  # Find prices and wages that minimize to 0 this difference
 
 
-#Use the curve_fit method. It will only find the nearest local minimum (greedy method), but it will graph it, yay.
-#For goods
+def gradient_descent ():
+ askCon_current = askProd_current = 0
+ iterations = 1000
+ learning_rate = 0.0001
+   for i in range (iterations):
+     sqrt_excess_goods = (AskCon [0] - Askprod [0])**2
+     AskConDer = 2 AskCon [0]
+     AskConProd =2 Askprod [0]
+     AskCon_current = askCon_current - learning_rate*AskConDer
+     AskProd_current = AskProd_current - learning_rate*AskProdDer
+     print ("AskCon[0][], AskProd[0][],iteration, sqrt_excess_goods ". format
 
-print optimization.curve_fit(sqrt_excess_goods_f, AskCon, AskProd, x0)
-
-#For factors
-print optimization.curve_fit(sqrt_excess_factors_f, AskCon, AskProd, x0)
-
-
+   
 #if we use this method, we will have to read from the graph and input the results to find total utility
 #this should work for more than one producer and one consumer
   def total_utility (AskCon, AskProd):
