@@ -1,14 +1,21 @@
 import numpy as np
 from scipy.optimize import minimize, fmin
 import matplotlib as plt
-from sympy import *
 import array
+import consumer as c
+import producer as p
 
-# When asked, CON and PROD both give arrays with columns. 
-# the first for maximized goods, the second for maximized factors.
-# producer adds a profit as the third column.
+class market_clearing ():
+ 
+""" When asked, CON and PROD both give arrays with columns. 
+the first for maximized goods, the second for maximized factors.
+producer adds a profit as the third column."""
 
-class market_clearing (Consumer, Producer):
+  def __init__ (self):
+    self.askCon = askCon
+    self.askProd = askProd
+    self.NoOfCon = NoOfCon
+    self.NoOfProd = NoOfProd
  
 #We define those variables that are inherit from the Consumer, MIchelle's Code, and Producer, Ricky's code class.
 
