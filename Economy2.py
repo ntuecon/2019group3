@@ -17,21 +17,26 @@ producer adds a profit as the third column."""
     self.NoOfCon = NoOfCon
     self.NoOfProd = NoOfProd
  
-#We define those variables that are inherit from the Consumer, MIchelle's Code, and Producer, Ricky's code class.
-
- p = 0
- r = 0
- AskProd = maxProfit (self,p,r)
- #Depending on Producers result, get pi.
- pi = maxProfit.pi
- AskCon = maxUtility(self, pi, p, r)
+  def objective ():
+ """First we need to obtain maximized values from the other modules
+    We ask the producer first in order to obtain the profit we will need for the consumer"""
+      
+      SumProdGoods = 0
+      SumProdProfit =0
+      askProd = self.p[i].maxProfit (p,r) #This will import an array from Ricky's Code given an p and an r.
+      SumProdGoods = askProd [0] #takes the first argument, column, of the array, and updates the sum everytime an instance is given.
+      SumProdProfit = askProd [2] #takes the third argument, column, of the array and updates the sum everytime an instance is given.
+      
+      SumConGoods = 0
+      askCon =self.p[i].maxUtility (p,r, SumProdProfit)
+      SumConGoods = askCon [0]
       
    
 #For ONE good and one factor, we need to get the respective values for X and V so as to see the difference (excess demand or supply)
 #For goods
 
-    def sqrt_excess_goods_f (AskProd, AskCon):
-        sqrt_excess_goods = (AskCon [0] - Askprod [0])**2
+    def sqrt_excess_goods_f (SumProdGoods, SumConGoods):
+        sqrt_excess_goods = (SumProdGoods [0] - SumConGoods [0])**2
         return sqrt_excess_goods
         print str(sqrt_excess_goods)
 
