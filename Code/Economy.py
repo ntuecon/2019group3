@@ -1,35 +1,61 @@
 import numpy as np
 from scipy.optimize import minimize, fmin
-import matplotlib as plt
+#import matplotlib as plt
 import array
-import consumer as c
-import producer as p
+import consumer as con
+import producer as prod
 
-class market_clearing ():
+class Economy(object):
  
 """ When asked, CON and PROD both give arrays with columns. 
 the first for maximized goods, the second for maximized factors.
 producer adds a profit as the third column."""
 
-  def __init__ (self):
+  def __init__ (self, askCon, askProd,noOfGoods,noOfFactos):
     self.askCon = askCon
     self.askProd = askProd
-    self.NoOfCon = NoOfCon
-    self.NoOfProd = NoOfProd
+    self.noOfGoods = noOfGoods
+    self.noOfFactors = noOfFactors
+    #self.noOfCon = NoOfCon
+    #self.noOfProd = NoOfProd
  
-  def objective ():
- """First we need to obtain maximized values from the other modules
+  def objective (self, inputList, no):
+ """First we need to obtain maximized values from the other classes
     We ask the producer first in order to obtain the profit we will need for the consumer"""
-      
-      SumProdGoods = 0
-      SumProdProfit =0
-      askProd = self.p[i].maxProfit (p,r) #This will import an array from Ricky's Code given an p and an r.
-      SumProdGoods = askProd [0] #takes the first argument, column, of the array, and updates the sum everytime an instance is given.
-      SumProdProfit = askProd [2] #takes the third argument, column, of the array and updates the sum everytime an instance is given.
-      
-      SumConGoods = 0
-      askCon =self.p[i].maxUtility (p,r, SumProdProfit)
-      SumConGoods = askCon [0]
+
+	  p = numpy.array(inputList[0:self.noOfGoods])
+   r = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors]) 
+   
+	  prodProfit = numpy.empty(len(askProd))
+   sumProdGoods = 0
+        
+   for i in self.askProd :
+		  j = 0
+		  answerProd = self.i.maxProfit (p,r) #This will import an array from Ricky's Code given an p and an r.
+		  sumProdGoods += answerProd [no] #takes the first argument, column, of the array, and updates the sum everytime an instance is given.
+		  prodProfit[j] = answerProd [noOfGoods+noOfFactors] #takes the third argument, column, of the array and updates the sum everytime an instance is given.
+		  j += 1
+		
+	 #Redistribution of profit
+	 conProfit = numpy.empty(len(askCon))
+	 for i in self.askCon :
+		 j = 0
+		 if i.noOfProd == 0 :
+			 conProfit[j] = 0
+		 else :
+			 conProfit[j] = prodProfit[i.noOfProd-1]
+		 j += 1
+
+
+	 sumConGoods = 0
+
+	 #Consumer Problem
+	 for i in self.askCon:
+		 j = 0
+		 answerCon =self.i.maxUtility (conProfit[j],p,r )
+		 sumConGoods += askCon [no]
+
+	return sqrt(sumConGoods - sumProdGoods)
       
    
 #For ONE good and one factor, we need to get the respective values for X and V so as to see the difference (excess demand or supply)
@@ -60,9 +86,4 @@ producer adds a profit as the third column."""
     return global_utility
   print "%s is the amount of happiness of this society" %global_utility
   
-
-
-
-
-
 
