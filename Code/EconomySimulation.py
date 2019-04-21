@@ -1,11 +1,20 @@
+"""
+@author Michelle Pfister
+@version 1.0
+
+"""
+
 import Economy
 import Consumer
 import Producer
+import UserInput
 
 class EconomySimulaton (object):
 
+    #input of data by the user has to happen using functions of the class UserInput
+    
     #number of goods and factors will be defined
-
+    
     #consumer objects will be created
 
     #producer objects will be created
