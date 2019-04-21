@@ -1,9 +1,11 @@
+"""
+ @author Michelle Pfister
+ @version 1.0
+ 
+"""
 
 import numpy
 from scipy.optimize import minimize 
-
-
-
 
 class Consumer (object):
     """ This class models the consumers and their preferences of the economy """
