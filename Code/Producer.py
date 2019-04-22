@@ -38,7 +38,7 @@ class Producer (object):
 #maximization
         def maxProfit (r,p)
 
-            """
-                    """
+            """  This function maximizes the profit """
+                    
        
 
