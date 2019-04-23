@@ -6,10 +6,10 @@ import consumer as con
 import producer as prod
 
 class Economy(object):
- 
-""" When asked, CON and PROD both give arrays with columns. 
-the first for maximized goods, the second for maximized factors.
-producer adds a profit as the third column."""
+	
+"""the object is to find factor and goods prices 
+that make the difference of goods provided by the producer and goods demanded by the consumer,
+and the factors provided by the consumer and factors demanded by the producer to be 0"""
 
   def __init__ (self, askCon, askProd,noOfGoods,noOfFactos):
     self.askCon = askCon
@@ -20,21 +20,27 @@ producer adds a profit as the third column."""
     #self.noOfProd = NoOfProd
  
   def objective (self, inputList, no):
- """First we need to obtain maximized values from the other classes
-    We ask the producer first in order to obtain the profit we will need for the consumer"""
-
-	  p = numpy.array(inputList[0:self.noOfGoods])
-   r = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors]) 
+		
+ """In order to obtain maximized values from the above mentioned classes,
+    prices for each good and factors need to be provided.
+    The consumer also needs to know about the profit""" 
+    
+  p = numpy.array(inputList[0:self.noOfGoods]) #creates an array that is the lenght of the Number of goods.
+  r = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors]) #creates an array that is the lenght number of factors.
+  prodProfit = numpy.empty(len(askProd)) #creates an empty array that is the length of the producer's answer.
+	
+ """ We start with the producer first in order to obtain the profit we will need for the consumer"""
    
-	  prodProfit = numpy.empty(len(askProd))
-   sumProdGoods = 0
+  sumProdGoods = 0 #We need to sum the good values provided by every producer.
+  sumProdFactors = 0 #We need to sum the factor values provided by every producer.
         
-   for i in self.askProd :
-		  j = 0
-		  answerProd = self.i.maxProfit (p,r) #This will import an array from Ricky's Code given an p and an r.
-		  sumProdGoods += answerProd [no] #takes the first argument, column, of the array, and updates the sum everytime an instance is given.
-		  prodProfit[j] = answerProd [noOfGoods+noOfFactors] #takes the third argument, column, of the array and updates the sum everytime an instance is given.
-		  j += 1
+    for i in self.askProd :
+      j = 0
+      answerProd = self.i.maxProfit (p,r) #This will import THE input list from Ricky's Code given an p and an r.
+      sumProdGoods += answerProd[0:self.noOfGoods] #creates an array with the sum of all the goods items of the producers answer and updates the sum everytime its instantiated.
+      sumProdFactors += answerProd[self.noOfGoods: self.noOfGoods+ self.noOfFactors] #creates an array with the sum of all the factor items of the producers answer and updates the sum everytime its instantiated.
+      prodProfit[j] = answerProd [noOfGoods+noOfFactors] #takes the last value of the producer's answer, that is the profit.
+      j += 1 #I do not know why we did this.
 		
 	 #Redistribution of profit
 	 conProfit = numpy.empty(len(askCon))
@@ -57,22 +63,6 @@ producer adds a profit as the third column."""
 
 	return sqrt(sumConGoods - sumProdGoods)
       
-   
-#For ONE good and one factor, we need to get the respective values for X and V so as to see the difference (excess demand or supply)
-#For goods
-
-    def sqrt_excess_goods_f (SumProdGoods, SumConGoods):
-        sqrt_excess_goods = (SumProdGoods [0] - SumConGoods [0])**2
-        return sqrt_excess_goods
-        print str(sqrt_excess_goods)
-
-
-#For factors
-        
-    def sqrt_excess_factors_f (AskCon,AskProd):
-        sqrt_excess_factors = (AskCon [1] - AskProd [1])**2
-        return sqrt_excess_factors
-        print str(sqrt_excess_factors)
  
  # Find prices and wages that minimize to 0 this difference
 
