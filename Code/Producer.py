@@ -23,66 +23,81 @@ class Producer (object):
         Self.xi = xi
         Self.psi = psi
         
-        Fi =Sumatori *gf*(((r*gf)^1-Xig)/(1-Xig)
+        
         
 
 #constraint
-        def prodtFct (r)
+        def prodtFct (inputList,p,r):
         """ This function calculates the production function """
 
         
-         #seperate good array (Xhg) from factor array (Vhf) goods come first
-        Xhg = numpy.array(inputList[0:self.noOfGoods])
-        Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
-        
+             #seperate good array (Xhg) from factor array (Vhf) goods come first
+            Xhg = numpy.array(inputList[0:self.noOfGoods])
+            Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
+
+            factorSupplyArray = numpy.empty(len(r))
+
+            for i in range (0,len(Vhf)):
+                factorSupplyArray [i] = self.parameterDict["psi"].[i]*(Vhf[i]**(1-self.parameterDict["xi"])/1-self.parameterDict["xi"]
+
+            sumFactorSupply = 0
+            for j in range (0,len(factorSupplyArray)):
+                sumFactorSupply += factorSupplyArray[j]
+
+
+            sumGoods = 0
+            for x in range (0,len(Xhg)):
+                sumGoods += Xhg[x]
+
+            return sumFactorSupply - sumGoods
+                                                                       
+            
     
 
 
 #objective
-        def profitFct (Xhg, Vhg)
+        def profitFct (Xhg, Vhg):
         """ In this section we define the profit function of producers"""
         
-        Xhg = numpy.array(inputList[0:self.noOfGoods])
-        Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
+            Xhg = numpy.array(inputList[0:self.noOfGoods])
+            Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
 
              #p*Xhg for every good
-        goodArray = numpy.empty(len(p))
-        for j in range(0,len(goodArray)):
-            goodArray[j] = p[j]*Xhg[j]
+            goodArray = numpy.empty(len(p))
+            for j in range(0,len(goodArray)):
+                goodArray[j] = p[j]*Xhg[j]
 
-        #sum of money spent on goods for consumer
-        sumGoodBudget = 0
-        for l in range(0,len(goodArray)):
-            sumGoodprofit += goodArray[l]
+            #sum of money spent on goods for consumer
+            sumGoodBudget = 0
+            for l in range(0,len(goodArray)):
+                sumGoodprofit += goodArray[l]
 
-         # r*Vhf for every factor
-        factorArray = numpy.empty(len(r))
-        for i in range(0,len(factorArray)):
-            factorArray[i] = r[i]*Vhf[i]
+             # r*Vhf for every factor
+            factorArray = numpy.empty(len(r))
+            for i in range(0,len(factorArray)):
+                factorArray[i] = r[i]*Vhf[i]
 
-        #sum of income through factors for consumer
-        sumFactorProfit = 0
-        for k in range(0,len(factorArray)):
-            sumFactorprofit += factorArray[k]
+            #sum of income through factors for consumer
+            sumFactorProfit = 0
+            for k in range(0,len(factorArray)):
+                sumFactorprofit += factorArray[k]
      
 
-        # Total profits = Xhg*p + r *Vhf
+            # Total profits = Xhg*p + r *Vhf
             
 
-            profits = sumFactorprofit - sumGoodprofit
+            profits =sumGoodprofit - sumFactorprofit
 
-        return profits
+            return (-1)*profits
     
 
 #maximization
-        def maxProfit (r,p)
+        def maxProfit (r,p):
 
-         """ This function maximizes the profit function for a given pi, p and r. """
+             """ This function maximizes the profit function for a given pi, p and r. """
         
-        ProfitCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (pi,p,r,)}
-        constraint = [profitsCon]
-        solution = minimize(self.inverted, guess, args = (pi,p,r), method = 'SLSQP', constraints = constraint)
-        return solution.x
-                    
-       
-
+            ProfitCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (p,r,)}
+            constraint = [profitsCon]
+            solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
+            return solution.x
+                                                                       
