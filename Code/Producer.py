@@ -84,7 +84,7 @@ class Producer (object):
 #maximization
       def maxProfit (r,p):
 
-          """ This function maximizes the profit function for a given pi, p and r. """
+          """ This function maximizes the profit function for a given p and r. """
     
         ProfitCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (p,r,)}
         constraint = [profitsCon]
