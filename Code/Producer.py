@@ -1,5 +1,4 @@
 
-
 import numpy
 from scipy.optimize import minimize
 
@@ -7,21 +6,21 @@ from scipy.optimize import minimize
 class Producer (object):
     """ This class models the producer """
 
-     def __init__ (self,noProducer, noOfGoods, noOfFactors, parameterDict):
+     def __init__ (self,noProducer, noOfGoods, noOfFactors, parameterDict,producedGood):
         """ This is the constructor for the producer class, it provides the consumer object with all the parameters
             needed to calculate the profit, as well as the link to which producers profit. 
             noOfProducer : number that indicates which producers profit will go to this consumer, 0 if no producers profit goes
             to this consumer
             noOfGoods, noOfFactors : number of goods and factors in this economy 
-            parameterDict : dictonary that contains all parameters that define the production function (Fi= total of goods, Xi,Psi) )  """
+            parameterDict : dictonary that contains all parameters that define the production function (Fi= total of goods, Xi,Psi) )
+            producedGood : which good will be produced by the producer"""
         
         self.noProducer = noProducer
         self.noOfGoods = noOfGo
         self.noOfFactors = noOfFactors
         self.parameterDict = parameterDict
-        Self.fi = fi
-        Self.xi = xi
-        Self.psi = psi
+        self.producedGood = producedGood
+        
         
         
         
@@ -100,4 +99,9 @@ class Producer (object):
             constraint = [profitsCon]
             solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
             return solution.x
-                                                                       
+
+
+        
+
+
+
