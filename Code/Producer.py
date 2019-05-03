@@ -1,6 +1,6 @@
 import numpy
 from scipy.optimize import minimize
-
+import math
 
 class Producer (object):
     """ This class models the producer """
@@ -15,80 +15,85 @@ class Producer (object):
           producedGood : which good will be produced by the producer"""
       
       self.noProducer = noProducer
-      self.noOfGoods = noOfGo
+      self.noOfGoods = noOfGoods
       self.noOfFactors = noOfFactors
       self.parameterDict = parameterDict
       self.producedGood = producedGood
         
-        
-        
-        
 
 #constraint
-      def prodtFct (inputList,p,r):
-        #seperate good array (Xhg) from factor array (Vhf) goods come first
-        Xhg = numpy.array(inputList[0:self.noOfGoods])
-        Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
+    def prodtFct (self,inputList,r):
+      #seperate good array (Xhg) from factor array (Vhf) goods come first
+      Xhg = numpy.array(inputList[0:self.noOfGoods])
+      Vhf = numpy.array(inputList[self.noOfGoods : self.noOfGoods+self.noOfFactors])
 
-        factorSupplyArray = numpy.empty(len(r))
+      factorSupplyArray = numpy.empty(len(r))
 
-        for i in range (0,len(Vhf)):
-            factorSupplyArray [i] = self.parameterDict["psi"][i]*(Vhf[i]**(1-self.parameterDict["xi"])/(1-self.parameterDict["xi"])
+      for i in range (0,len(Vhf)):
+        factorSupplyArray [i] = self.parameterDict["psi"]*math.pow((r[i]*Vhf[i]),(1-self.parameterDict["xi"]))/(1-self.parameterDict["xi"])
+          
+      sumFactorSupply = 0
+      for j in range (0,len(factorSupplyArray)):
+          sumFactorSupply += factorSupplyArray[j]
 
-        sumFactorSupply = 0
-        for j in range (0,len(factorSupplyArray)):
-            sumFactorSupply += factorSupplyArray[j]
+      sumGoods = 0
+      for x in range (0,len(Xhg)):
+          sumGoods += Xhg[x]
 
-
-        sumGoods = 0
-        for x in range (0,len(Xhg)):
-            sumGoods += Xhg[x]
-
-        return sumFactorSupply - sumGoods                                                       
+      return sumFactorSupply - sumGoods                                                       
 #objective
-      def profitFct (Xhg, Vhg):
-      """ In this section we define the profit function of producers"""
-      
-        Xhg = numpy.array(inputList[0:self.noOfGoods])
-        Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
+    def profitFct (self,inputList, p, r):
+      Xhg = numpy.array(inputList[0:self.noOfGoods])
+      Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
 
-          #p*Xhg for every good
-        goodArray = numpy.empty(len(p))
-        for j in range(0,len(goodArray)):
-            goodArray[j] = p[j]*Xhg[j]
-
-        #sum of money spent on goods for consumer
-        sumGoodBudget = 0
-        for l in range(0,len(goodArray)):
-            sumGoodprofit += goodArray[l]
-
-          # r*Vhf for every factor
-        factorArray = numpy.empty(len(r))
-        for i in range(0,len(factorArray)):
-            factorArray[i] = r[i]*Vhf[i]
-
-        #sum of income through factors for consumer
-        sumFactorProfit = 0
-        for k in range(0,len(factorArray)):
-            sumFactorprofit += factorArray[k]
   
+      #p*Xhg for every good
+      goodArray = numpy.empty(len(p))
+      for j in range(0,len(goodArray)):
+          goodArray[j] = p[j]*Xhg[j]
 
-        # Total profits = Xhg*p + r *Vhf
-        
+      #sum of money spent on goods for consumer
+      sumGoodBudget = 0
+      for l in range(0,len(goodArray)):
+          sumGoodBudget += goodArray[l]
 
-        profits =sumGoodprofit - sumFactorprofit
+        # r*Vhf for every factor
+      factorArray = numpy.empty(len(r))
+      for i in range(0,len(factorArray)):
+          factorArray[i] = r[i]*Vhf[i]
 
-        return (-1)*profits
+      #sum of income through factors for consumer
+      sumFactorProfit = 0
+      for k in range(0,len(factorArray)):
+          sumFactorProfit += factorArray[k]
+
+
+      # Total profits = Xhg*p - r *Vhf      
+
+      profits =sumGoodBudget - sumFactorProfit
+
+      return (-1)*profits
 
 
 #maximization
-      def maxProfit (r,p):
+    def maxProfit (self,r,p):
+      ProfitCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (p,r)}
+      constraint = [profitsCon]
+      solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
+      return solution.x
 
-          """ This function maximizes the profit function for a given p and r. """
-    
-        ProfitCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (p,r,)}
-        constraint = [profitsCon]
-        solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
-        return solution.x
+dict_obj = {
+"xi" : 2,
+"psi" : 0.5
+}
+producer = Producer(1,2,2,dict_obj,'cadires')
 
-                                                                  
+pi = 10
+p = [1,7]
+r = [4,9]
+
+guess = [5,9,34,8]
+
+print producer.prodtFct(guess,r)
+print producer.profitFct(guess,p,r)
+print producer.maxProfit(r,p)
