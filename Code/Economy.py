@@ -38,7 +38,7 @@ and the factors provided by the consumer and factors demanded by the producer to
   sumProdFactors = 0 #We need to sum the factor values provided by every producer.
         
     for i in self.askProd :
-      j = 0 #I do not know why we did this.
+      j = 0 #I do not know why we did this. To know at which producer we are. 
       answerProd = self.i.maxProfit (p,r) #This will import THE input list from Ricky's Code given an p and an r.
       sumProdGoods += answerProd[0:self.noOfGoods] #creates an array with the sum of all the goods items of the producers answer and updates the sum everytime its instantiated.
       sumProdFactors += answerProd[self.noOfGoods: self.noOfGoods+ self.noOfFactors] #creates an array with the sum of all the factor items of the producers answer and updates the sum everytime its instantiated.
@@ -61,6 +61,7 @@ and the factors provided by the consumer and factors demanded by the producer to
  sumConFactors = 0 #We need to sum the factor values provided by every consumer.
 	 
     for i in self.askCon:
+	#put like a j or something to know at which consumer we are.
 	answerCon =self.i.maxUtility (conProfit[j],p,r )
 	sumConGoods += answerCon [0:self.noOfGoods]
 	sumConGoods += answerCon[self.noOfGoods: self.noOfGoods+ self.noOfFactors]
