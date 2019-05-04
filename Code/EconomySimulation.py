@@ -8,12 +8,12 @@ import numpy
 from Consumer import Consumer
 from Producer import Producer
 from UserInput import UserInput
-#from Economy import Economy
+from Economy import Economy
 
     
 #explanation
 user = UserInput()
-user.introduction()
+user.introduction(
 
 #input of data by the user has to happen using functions of the class UserInput
 value = user.inputValues()
@@ -36,9 +36,10 @@ print "Producer created"
     
 
 #economy object will be created (giving the object information on number
+economy = Economy(consumerArray, producerArray, value.noOfGoods, value.noOfFactors)
 
-#economy = Economy ( #HAS TO BE CREATE 
-#goods and factors, arrays of the created consumers and producers
+print "Economy created"
 
 #findEquilibrium() method will be called to let the equilibrium be calculated
+
 
