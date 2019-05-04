@@ -1,5 +1,6 @@
 import numpy
 from scipy.optimize import minimize
+import math
 
 class Producer (object):
     """ This class models the producer """
