@@ -3,14 +3,12 @@
 @version 1.0
 
 """
+import numpy
 
 class UserInput (object):
 
-    def __init__(self, noOfGoods, noOfFactors, noOfConsumers, noOfProducers):
-        self.noOfGoods = noOfGoods
-        self.noOfFactors = noOfFactors
-        self.noOfConsumer = noOfConsumers
-        self.noOfProducer = noOfProducers
+    def __init__(self):
+        pass
     
     def introduction (self):
         """ introduction will be used when beginning the economy simulation as a user to explain how the economy simuation work
@@ -25,23 +23,61 @@ class UserInput (object):
         and factors, number of consumers and producers, link between consumer and producers). """
         
         #define number of goods and factors
-        noOfGoods = raw_input("Please enter the number of goods of your economy : ")
-        noOfFactors = raw_input("Please enter the number of factors of your economy : ")
+        noOfGoods = int(raw_input("Please enter the number of goods of your economy : "))
+        noOfFactors = int(raw_input("Please enter the number of factors of your economy : "))
 
         #define number of consumers and producers
-        noOfConsumers = raw_input("How many consumers does your economy have? ")
-        noOfProducer = raw_input ("How many producers does your economy have? ")
+        noOfConsumers = int(raw_input("How many consumers does your economy have? "))
+        noOfProducers = int(raw_input ("How many producers does your economy have? "))
+
 
         #define for each producer what good they produce (to be discussed)
+        parameterProd = [{}]*noOfProducers
+        goodProd = numpy.empty(noOfProducers)
+        for i in range(0,noOfProducers) :
+            print "You define producer " + str(i+1) + " now"
+            goodProducer = int(raw_input("Which product should this producer produce?"))
+            xi = float(raw_input ( "What do you want xi to be?"))
+            psi = float(raw_input ( "What do you want psi to be?"))
+            producerDict = {"xi" : xi, "psi" : psi}
+            goodProd[i] = goodProducer
+            parameterProd[i] = producerDict
+            
 
 
         #define for each consumer their shares of each producers profit (to be discussed)
-        
-        
-        #what else do we need to determine the economy?
-        
-        
+
+        parameterCon = [{}]*noOfConsumers
+        prodOfCon = numpy.empty(noOfConsumers)
+        for i in range(0,noOfConsumers):
+            print "You define consumer " + str(i+1) + " now"
+            prodOfConsumer = int(raw_input("Which producers profit goes to this consumer?"))
+            alpha = float(raw_input( "What do you want alpha to be?" ))
+            beta = float(raw_input ( "What do you want beta to be?" ))
+            gamma = float(raw_input ( "What do you want gamma to be?" ))
+            sigma = float(raw_input ( "What do you want sigma to be?" ))
+            theta = float(raw_input ( "What do you want theta to be? "))
+
+            consumerDict = {"alpha" : alpha, "beta" : beta, "gamma" : gamma, "sigma" : sigma, "theta" : theta}
+            parameterCon[i] = consumerDict
+            prodOfCon[i] = prodOfConsumer
+
+        value = Values(noOfGoods, noOfFactors, noOfConsumers, noOfProducers, parameterCon, parameterProd, prodOfCon, goodProd)
+
+        return value
+
     
+class Values(object):
+
+    def __init__(self, noOfGoods, noOfFactors, noOfConsumers, noOfProducers, parameterCon, parameterProd, prodOfCon, goodProd ):
+        self.prodOfCon = prodOfCon
+        self.noOfGoods = noOfGoods
+        self.noOfFactors = noOfFactors
+        self.noOfConsumers = noOfConsumers
+        self.noOfProducers = noOfProducers
+        self.parameterCon = parameterCon
+        self.parameterProd = parameterProd
+        self.goodProd = goodProd
         
   
 
