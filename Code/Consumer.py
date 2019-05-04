@@ -1,41 +1,29 @@
-"""
- @author Michelle Pfister
- @version 1.0
- 
-"""
-
 import numpy
 from scipy.optimize import minimize 
 
-class Consumer (object):
-    """ This class models the consumers and their preferences of the economy """
 
-    
-    
+#This class models the consumers and their preferences of the economy
+
+class Consumer (object):
+
+    #This is the constructor for the consumer class, it provides the consumer object with all the parameters needed to calculate the utility function
+    #alpha, beta, gamma, sigma and theta are parameters of the utility function
     
     def __init__ (self,noProducer, noOfGoods, noOfFactors, parameterDict):
-        """ This is the constructor for the consumer class, it provides the consumer object with all the parameters
-            needed to calculate the utility function, as well as the link to which producers profit the consumer will obtain
-            as part of his budget. 
-            noOfProducer : number that indicates which producers profit will go to this consumer, 0 if no producers profit goes
-            to this consumer
-            noOfGoods, noOfFactors : number of goods and factors in this economy 
-            parameterDict : dictonary that contains all parameters that define the utiliy function (alpha, beta, gamma, theta, sigma)  """
-        
         self.noProducer = noProducer
         self.noOfGoods = noOfGoods
         self.noOfFactors = noOfFactors
         self.parameterDict = parameterDict
 
+
+    #This function calculates the utility for the consumer object the parameteres specified in the object
+    #and the amount of consumed goods (Xhg) and factors supply (Vhf)
+    #Xhg and Vhf are both one dimensional arrays with length of the number of goods / factors for this specific consumer
+
     
     def utilityFunction (self,inputList):
-        """ This function calculates the utility for the consumer object the parameteres specified in the object. 
-            It needs the amount of each good and factor to calculate the consumers utility. The amount of goods consumed is given in the 
-            array Xhg and the amount of factors provided in the array Vhf.
-            Xhg and Vhf are both one dimensional arrays with length of the number of goods / factors for this specific consumer.
-            This function returns one float that describes the amount of utiltiy for this consumer and this specific
-            good/factor allocation"""
-        
+
+
         #seperate good array (Xhg) from factor array (Vhf) goods come first
         Xhg = numpy.array(inputList[0:self.noOfGoods])
         Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
@@ -64,23 +52,22 @@ class Consumer (object):
 
         factorUtility = sum_factorU
 
+
         #combining both parts to calculate utiliy
         utility = goodUtility - factorUtility
 
         return utility
 
     def invertedUtility (self, inputList,pi,p,r):
-        """ This function inverts the utility function so the scipy.minimize function can be used to solve our maximazation problem. """ 
 
         return (-1)*self.utilityFunction(inputList)
 
-
+    #This function models the budget restriction of the consumer which is determined
+    #by prices of goods(p) and factors (r) as well as the profit the consumer gets
+    #allocated with (pi). This is an equality constraint where budget = 0. 
     
     def constraint(self,inputList, pi, p, r):
-        """ This function models the budget restriction of the consumer which is determined by prices of goods(p)
-            and factors (r) as well as the profit the consumer gets allocated with (pi). This is an equality constraint
-            where budget must equal 0. Profit (pi) will be input as float. Prices (p,r) will be input as arrays which have
-            the length of the respective number of goods and factors in the given economy. """ 
+
         
         Xhg = numpy.array(inputList[0:self.noOfGoods])
         Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
@@ -111,10 +98,13 @@ class Consumer (object):
 
 
         
-    
-    def maxUtility(self, pi, p, r, guess):
-        """ This function maximizes the utility function for a given pi, p and r. """
-        
+    #This function maximizes the utility function for a given pi, p and r
+    def maxUtility(self, pi, p, r):
+        print "--------- START SOLVING CONSUMER PROBLEM -----------"
+        x = len(p)+len(r)
+        guess = numpy.empty(x)
+        for i in range(0,x):
+            guess[i] = 1
         budgetCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (pi,p,r,)}
         constraint = [budgetCon]
         solution = minimize(self.invertedUtility, guess, args = (pi,p,r), method = 'SLSQP', constraints = constraint)
@@ -125,9 +115,12 @@ class Consumer (object):
 
     
 
-""" Testing the code above """ 
+#Testing
 
-print "---------STARTING TEST------------------------------------------------------------"
+
+print "----STARTING TEST---"
+
+print "TESTING INVERTED UTILITY"
 
 dict = {
     "alpha" : [2,5],
@@ -147,13 +140,9 @@ guess = [5,9,34,8]
 
 u = c.invertedUtility(guess, pi, p, r)
 
-print "---------MAXIMIZED UTILITY FOR GIVEN BUDGET AND PRICES--------------------------"
 print u
 
-sol = c.maxUtility(pi,p,r,guess)
+sol = c.maxUtility(pi,p,r)
 
-print "----------MAXIMIZED GOOD/FACTOR ALLOCATION FOR GIVEN BUDGET AND PRICES-----------"
 print sol
-
-
 
