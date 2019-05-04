@@ -1,10 +1,9 @@
 import numpy
 from scipy.optimize import minimize
-import math
 
 class Producer (object):
     """ This class models the producer """
-
+    
     def __init__ (self,noProducer, noOfGoods, noOfFactors, parameterDict,producedGood):
       """ This is the constructor for the producer class, it provides the consumer object with all the parameters
           needed to calculate the profit, as well as the link to which producers profit. 
@@ -22,7 +21,7 @@ class Producer (object):
         
 
 #constraint
-    def prodtFct (self,inputList,r):
+    def prodtFct (self,inputList,p,r):
       #seperate good array (Xhg) from factor array (Vhf) goods come first
       Xhg = numpy.array(inputList[0:self.noOfGoods])
       Vhf = numpy.array(inputList[self.noOfGoods : self.noOfGoods+self.noOfFactors])
@@ -77,10 +76,11 @@ class Producer (object):
 
 #maximization
     def maxProfit (self,r,p):
-      ProfitCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (p,r)}
-      constraint = [profitsCon]
+      profitCon = {'type' : 'eq', 'fun' : self.prodtFct, 'args' : (p,r)}
+      constraint = [profitCon]
       solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
       return solution.x
+
 
 dict_obj = {
 "xi" : 2,
@@ -94,6 +94,6 @@ r = [4,9]
 
 guess = [5,9,34,8]
 
-print producer.prodtFct(guess,r)
+print producer.prodtFct(guess,p,r)
 print producer.profitFct(guess,p,r)
 print producer.maxProfit(r,p)
