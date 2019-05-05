@@ -1,8 +1,3 @@
-import numpy as np
-from scipy.optimize import minimize
-import array
-from Consumer import Consumer as con
-from Producer import Producer as prod
 
 class Economy(object):
 	
@@ -10,33 +5,33 @@ class Economy(object):
     def __init__ (self, askCon, askProd, noOfGoods, noOfFactors):
         self.askCon = askCon
         self.askProd = askProd
-        self.goods = goods
-        self.factors = factors
+        self.noOfGoods = noOfGoods
+        self.noOfFactors = noOfFactors
     
 
     def objective (self, inputList, no):
         p = numpy.array(inputList[0:self.noOfGoods])
         r = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
-        prodProfit = numpy.empty(len(askProd))
+        prodProfit = numpy.empty(len(self.askProd))
 
         #Producer problem
-	sumProd = 0  
+        sumProd = 0  
 
         for i in self.askProd :
             j = 0
-            answerProd = self.i.maxProfit (p,r)
+            answerProd = i.maxProfit (p,r)
             sumProd += answerProd[no]
-            prodProfit[j] = answerProd [noOfGoods+noOfFactors]
+            prodProfit[j] = answerProd [self.noOfGoods+self.noOfFactors]
             j += 1
 
         #Redistribution of profit
-        conProfit = numpy.empty(len(askCon))
+        conProfit = numpy.empty(len(self.askCon))
         for i in self.askCon :
             j = 0
-            if i.noOfProd == 0 :
+            if i.noProducer == 0 :
                 conProfit[j] = 0
             else :
-                conProfit[j] = prodProfit[i.noOfProd-1]
+                conProfit[j] = prodProfit[i.noProducer-1]
             j += 1
 
         #Consumer Problem
@@ -45,7 +40,7 @@ class Economy(object):
 
         j = 0
         for i in self.askCon:
-            answerCon =self.i.maxUtility (conProfit[j],p,r )
+            answerCon =i.maxUtility (conProfit[j],p,r )
             sumCon += answerCon [no]
             j += 1
             return sqrt(sumCon - sumProd) 
@@ -63,9 +58,5 @@ class Economy(object):
             else :
                 print "ERROR"
 
-
-  
-
-
-
+        return sol.x
 
