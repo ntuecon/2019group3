@@ -13,16 +13,17 @@ from Economy import Economy
     
 #explanation
 user = UserInput()
-user.introduction(
+user.introduction()
 
 #input of data by the user has to happen using functions of the class UserInput
 value = user.inputValues()
     
 #consumer objects will be created
 
+
 consumerArray = [Consumer]*value.noOfConsumers
 for c in range(0,len(consumerArray)):
-    consumerArray[c] = Consumer(value.prodOfCon[c],value.noOfGoods,value.noOfFactors,value.parameterCon[c])
+    consumerArray[c] = Consumer(int(value.prodOfCon[c]),value.noOfGoods,value.noOfFactors,value.parameterCon[c])
     #NOOFPRODUCER HAS TO BE CHANGED
 
 print "Consumer created"
@@ -30,6 +31,8 @@ print "Consumer created"
 #producer objects will be created
 producerArray = [Producer]*value.noOfProducers
 for p in range(0,len(producerArray)):
+    print "NOOFPROAÖSDFAJSD"
+    print value.prodOfCon[0]
     producerArray[p] = Producer(value.noOfProducers, value.noOfGoods, value.noOfFactors, value.parameterProd[p], value.goodProd[p])
 
 print "Producer created"
@@ -41,5 +44,8 @@ economy = Economy(consumerArray, producerArray, value.noOfGoods, value.noOfFacto
 print "Economy created"
 
 #findEquilibrium() method will be called to let the equilibrium be calculated
+
+solution = economy.findEquilibrium()
+print solution
 
 
