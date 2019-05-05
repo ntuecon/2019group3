@@ -66,9 +66,8 @@ and the factors provided by the consumer and factors demanded by the producer to
 	sumConGoods += answerCon [0:self.noOfGoods]
 	sumConGoods += answerCon[self.noOfGoods: self.noOfGoods+ self.noOfFactors]
 
-	return sqrt(sumConGoods - sumProdGoods) 
-        return sqrt(sumConFactors - sumProdFactors)
-	      
+	return sqrt(sumConGoods - sumProdGoods) + sqrt(sumConFactors - sumProdFactors)
+              
  
 # Find prices and wages that minimize to 0 this difference
 #Try or guesses
