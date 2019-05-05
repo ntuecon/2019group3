@@ -80,7 +80,13 @@ class Producer (object):
       profitCon = {'type' : 'eq', 'fun' : self.prodtFct, 'args' : (p,r)}
       constraint = [profitCon]
       solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
-      return solution.x
+      sol = numpy.empty(self.noOfGoods+self.noOfFactors+1)
+      for i in range (0, self.noOfGoods+self.noOfFactors+1):
+          if i < (self.noOfGoods +self.noOfFactors):
+              sol[i] = solution.x[i]
+          else :
+              sol[i] = solution.fun
+      return sol
 
 
 dict_obj = {
@@ -97,4 +103,6 @@ guess = [5,9,34,8]
 
 print producer.prodtFct(guess,p,r)
 print producer.profitFct(guess,p,r)
-print producer.maxProfit(r,p)
+x = producer.maxProfit(r,p)
+print x
+print producer.profitFct(x,p,r)
