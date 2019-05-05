@@ -19,63 +19,62 @@ and the factors provided by the consumer and factors demanded by the producer to
     #self.noOfCon = NoOfCon
     #self.noOfProd = NoOfProd
  
-  def objective (self, inputList, no): #our variables are p and r, and they are stored in the input list as vectors.
+  def objective (self, inputList, no): 
 		
  """In order to obtain maximized values from the above mentioned classes,
     prices for each good and factors need to be provided.
     The consumer also needs to know about the profit""" 
   
   
-  p = numpy.array(inputList[0:self.noOfGoods]) #creates an array that is the lenght of the Number of goods. When is input list defined? is it just one input list?
-  r = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors]) #creates an array that is the lenght number of factors.
-  prodProfit = numpy.empty(len(askProd)) #creates an empty array that is the length of the producer's answer. Do I have to write self here? Why or why not?
-	
+  p = numpy.array(inputList[0:self.noOfGoods]) 
+  r = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors]) 
+  prodProfit = numpy.empty(len(askProd))
+
  """ We start with the producer first in order to obtain the profit we will need for the consumer"""
   
   #Producer problem
 	
-  sumProdGoods = 0 #We need to sum the good values provided by every producer.
-  sumProdFactors = 0 #We need to sum the factor values provided by every producer.
+  sumProdGoods = 0 
+  sumProdFactors = 0 
         
     for i in self.askProd :
-      j = 0 #I do not know why we did this. To know at which producer we are. 
-      answerProd = self.i.maxProfit (p,r) #This will import THE input list from Ricky's Code given an p and an r.
-      sumProdGoods += answerProd[0:self.noOfGoods] #creates an array with the sum of all the goods items of the producers answer and updates the sum everytime its instantiated.
-      sumProdFactors += answerProd[self.noOfGoods: self.noOfGoods+ self.noOfFactors] #creates an array with the sum of all the factor items of the producers answer and updates the sum everytime its instantiated.
-      prodProfit[j] = answerProd [noOfGoods+noOfFactors] #changes 'jth value' of prodProfit to take the last value of the producer's answer, that is the profit.
-      j += 1 #I do not know why we did this. Also above, why do we need the jth value?
+      j = 0 
+      answerProd = self.i.maxProfit (p,r) 
+      sumProdGoods += answerProd[0:self.noOfGoods] 
+      sumProdFactors += answerProd[self.noOfGoods: self.noOfGoods+ self.noOfFactors] 
+      prodProfit[j] = answerProd [noOfGoods+noOfFactors]
+      j += 1 
 		
 	 #Redistribution of profit
-	 conProfit = numpy.empty(len(askCon)) #creates an empty array the length of the askCon list.
-	 for i in self.askCon : #This loop looks for the consumers that are producers.
-	   j = 0 #What is this for
+	 conProfit = numpy.empty(len(askCon)) 
+	 for i in self.askCon :
+	   j = 0 
 	   if i.noOfProd == 0 : 
 	     conProfit[j] = 0
            else :
-	     conProfit[j] = prodProfit[i.noOfProd-1] #I do not understand this.
-		 j += 1#What is this for
+	     conProfit[j] = prodProfit[i.noOfProd-1] 
+		 j += 1
 
  #Consumer Problem
 
- sumConGoods = 0 #We need to sum the good values prefered by every consumer.
- sumConFactors = 0 #We need to sum the factor values provided by every consumer.
+ sumConGoods = 0 
+ sumConFactors = 0 
 	 
     for i in self.askCon:
-	#put like a j or something to know at which consumer we are.
+	
 	answerCon =self.i.maxUtility (conProfit[j],p,r )
 	sumConGoods += answerCon [0:self.noOfGoods]
 	sumConGoods += answerCon[self.noOfGoods: self.noOfGoods+ self.noOfFactors]
 
-	return sqrt(sumConGoods - sumProdGoods)
-	return sqrt(sumConFactors - sumProdFactors)
-
-      
+	return sqrt(sumConGoods - sumProdGoods) 
+        return sqrt(sumConFactors - sumProdFactors)
+	      
  
- # Find prices and wages that minimize to 0 this difference
+# Find prices and wages that minimize to 0 this difference
 #Try or guesses
 p = numpy.ones(inputList[0:self.noOfGoods])
 r = numpy.ones(inputList[0:self.noOfGoods])
-print objective (p,r) #The objective is what is after return basically. 
+print objective (p,r)
 
 sol = minimize (objective, p,r, method ='SLSQP')
 
