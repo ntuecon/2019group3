@@ -115,34 +115,3 @@ class Consumer (object):
 
     
 
-#Testing
-
-
-print "----STARTING TEST---"
-
-print "TESTING INVERTED UTILITY"
-
-dict = {
-    "alpha" : [2,5],
-    "beta" : 0.5,
-    "gamma" : 2,
-    "sigma" : 0,
-    "theta" : [2,3]
-    }
-
-c = Consumer(1,2,2,dict)
-
-pi = 10
-p = [1,7]
-r = [4,9]
-
-guess = [5,9,34,8]
-
-u = c.invertedUtility(guess, pi, p, r)
-
-print u
-
-sol = c.maxUtility(pi,p,r)
-
-print sol
-
