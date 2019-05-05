@@ -77,32 +77,17 @@ class Producer (object):
 
 #maximization
     def maxProfit (self,r,p):
-      profitCon = {'type' : 'eq', 'fun' : self.prodtFct, 'args' : (p,r)}
-      constraint = [profitCon]
-      solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
-      sol = numpy.empty(self.noOfGoods+self.noOfFactors+1)
-      for i in range (0, self.noOfGoods+self.noOfFactors+1):
-          if i < (self.noOfGoods +self.noOfFactors):
-              sol[i] = solution.x[i]
-          else :
-              sol[i] = solution.fun
-      return sol
-
-
-dict_obj = {
-"xi" : 2,
-"psi" : 0.5
-}
-producer = Producer(1,2,2,dict_obj,'cadires')
-
-pi = 10
-p = [1,7]
-r = [4,9]
-
-guess = [5,9,34,8]
-
-print producer.prodtFct(guess,p,r)
-print producer.profitFct(guess,p,r)
-x = producer.maxProfit(r,p)
-print x
-print producer.profitFct(x,p,r)
+        x = len(p)+len(r)
+        guess = numpy.empty(x)
+        for i in range(0,x):
+            guess[i] = 1
+        profitCon = {'type' : 'eq', 'fun' : self.prodtFct, 'args' : (p,r)}
+        constraint = [profitCon]
+        solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
+        sol = numpy.empty(self.noOfGoods+self.noOfFactors+1)
+        for i in range (0, self.noOfGoods+self.noOfFactors+1):
+            if i < (self.noOfGoods +self.noOfFactors):
+                sol[i] = solution.x[i]
+            else :
+                sol[i] = solution.fun
+        return sol
