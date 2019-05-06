@@ -48,4 +48,3 @@ print "Economy created"
 solution = economy.findEquilibrium()
 print solution
 
-
