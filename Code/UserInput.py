@@ -52,13 +52,19 @@ class UserInput (object):
         for i in range(0,noOfConsumers):
             print "You define consumer " + str(i+1) + " now"
             prodOfConsumer = int(raw_input("Which producers profit goes to this consumer?"))
-            alpha = float(raw_input( "What do you want alpha to be?" ))
+            alphaArray = numpy.empty(noOfGoods)
+            for j in range(0, noOfGoods):
+                alpha = float(raw_input( "What do you want alpha to be?" ))
+                alphaArray[j] = alpha
             beta = float(raw_input ( "What do you want beta to be?" ))
             gamma = float(raw_input ( "What do you want gamma to be?" ))
             sigma = float(raw_input ( "What do you want sigma to be?" ))
-            theta = float(raw_input ( "What do you want theta to be? "))
+            thetaArray = numpy.empty(noOfFactors)
+            for k in range (0, noOfFactors):
+                theta = float(raw_input ( "What do you want theta to be? "))
+                thetaArray[k] = theta
 
-            consumerDict = {"alpha" : alpha, "beta" : beta, "gamma" : gamma, "sigma" : sigma, "theta" : theta}
+            consumerDict = {"alpha" : alphaArray, "beta" : beta, "gamma" : gamma, "sigma" : sigma, "theta" : thetaArray}
             parameterCon[i] = consumerDict
             prodOfCon[i] = prodOfConsumer
 
@@ -80,4 +86,3 @@ class Values(object):
         self.goodProd = goodProd
         
         
-  
