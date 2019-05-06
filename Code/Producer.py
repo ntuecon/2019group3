@@ -91,3 +91,4 @@ class Producer (object):
             else :
                 sol[i] = solution.fun
         return sol
+
