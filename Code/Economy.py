@@ -1,3 +1,9 @@
+from math import *
+import numpy 
+from scipy.optimize import minimize
+import array
+from Consumer import Consumer as con
+from Producer import Producer as prod
 
 class Economy(object):
 	
@@ -43,7 +49,8 @@ class Economy(object):
             answerCon =i.maxUtility (conProfit[j],p,r )
             sumCon += answerCon [no]
             j += 1
-            return sqrt(sumCon - sumProd) 
+
+        return pow(sumCon,2) - pow(sumProd,2) 
               
 
     def findEquilibrium(self):
