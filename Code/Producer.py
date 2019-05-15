@@ -30,6 +30,18 @@ class Producer (object):
       factorSupplyArray = numpy.empty(len(r))
 
       for i in range (0,len(Vhf)):
+        print "DURCHLAUF:"
+        print i
+        print "PSI"
+        print self.parameterDict["psi"]
+        print "r"
+        print r[i]
+        print "VHF"
+        print Vhf[i]
+        print "xi"
+        print self.parameterDict["xi"]
+        
+        
         factorSupplyArray [i] = self.parameterDict["psi"]*math.pow((r[i]*Vhf[i]),(1-self.parameterDict["xi"]))/(1-self.parameterDict["xi"])
           
       sumFactorSupply = 0
@@ -74,6 +86,9 @@ class Producer (object):
 
       return (-1)*profits
 
+#positivity condition
+    def constraint(self, inputList,no):
+        return inputList[no]
 
 #maximization
     def maxProfit (self,r,p):
@@ -82,7 +97,14 @@ class Producer (object):
         for i in range(0,x):
             guess[i] = 1
         profitCon = {'type' : 'eq', 'fun' : self.prodtFct, 'args' : (p,r)}
-        constraint = [profitCon]
+        
+        constraint = [{}]*(self.noOfGoods + self.noOfFactors +1)
+        constraint[0] = profitCon
+        for no in range (1, self.noOfGoods+self.noOfFactors +1):
+            con = {'type' : 'ineq', 'fun' : self.constraint, 'args' :[no-1]}
+            print str(no-1) + "NO"
+            constraint[no] = con
+        
         solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
         sol = numpy.empty(self.noOfGoods+self.noOfFactors+1)
         for i in range (0, self.noOfGoods+self.noOfFactors+1):
