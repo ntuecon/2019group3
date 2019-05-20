@@ -59,7 +59,7 @@ class Economy(object):
         result = 0
 
         for i in range (0, self.noOfGoods+self.noOfFactors):
-            result += pow(consumedArray[no]-producedArray[no],2) + sqrt(self.noOfGoods +self.noOfFactors - (p[i] + r [i]))
+            result += pow(consumedArray[no]-producedArray[no],2) + sqrt(1- p.mean([axis, dtype, out, keepdims]- r.mean([axis, dtype, out, keepdims])
 
         return result
               
