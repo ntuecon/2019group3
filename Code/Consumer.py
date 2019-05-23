@@ -23,7 +23,9 @@ class Consumer (object):
     
     def utilityFunction (self,inputList):
 
-
+        print "INPUTLIST CONSUMER:"
+        print inputList
+        
         #seperate good array (Xhg) from factor array (Vhf) goods come first
         Xhg = numpy.array(inputList[0:self.noOfGoods])
         Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
@@ -66,7 +68,7 @@ class Consumer (object):
     #by prices of goods(p) and factors (r) as well as the profit the consumer gets
     #allocated with (pi). This is an equality constraint where budget = 0. 
     
-    def constraint(self,inputList, pi, p, r):
+    def budgetConstraint(self,inputList, pi, p, r):
 
         
         Xhg = numpy.array(inputList[0:self.noOfGoods])
@@ -96,6 +98,10 @@ class Consumer (object):
 
         return budget
 
+    #positivity condition
+    def constraint(self, inputList,no):
+        return inputList[no]
+
 
         
     #This function maximizes the utility function for a given pi, p and r
@@ -103,12 +109,23 @@ class Consumer (object):
         print "--------- START SOLVING CONSUMER PROBLEM -----------"
         x = len(p)+len(r)
         guess = numpy.empty(x)
+        
         for i in range(0,x):
-            guess[i] = 1
-        budgetCon = {'type' : 'eq', 'fun' : self.constraint, 'args' : (pi,p,r,)}
-        constraint = [budgetCon]
+            guess[i] = 10
+            
+        budgetCon = {'type' : 'eq', 'fun' : self.budgetConstraint, 'args' : (pi,p,r,)}
+        constraint = [{}]*(self.noOfGoods + self.noOfFactors +1)
+        constraint[0] = budgetCon
+        for no in range (1, self.noOfGoods+self.noOfFactors +1):
+            con = {'type' : 'ineq', 'fun' : self.constraint, 'args' :[no-1]}
+            print str(no) + "NO Positivity Constraint"
+            constraint[no] = con
+            
         solution = minimize(self.invertedUtility, guess, args = (pi,p,r), method = 'SLSQP', constraints = constraint)
         return solution.x
+
+
+    
 
 
     
