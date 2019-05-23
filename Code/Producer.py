@@ -28,21 +28,11 @@ class Producer (object):
       Vhf = numpy.array(inputList[self.noOfGoods : self.noOfGoods+self.noOfFactors])
 
       factorSupplyArray = numpy.empty(len(r))
+      print "INPUTLIST PRODUCER:"
+      print inputList
 
-      for i in range (0,len(Vhf)):
-        print "DURCHLAUF:"
-        print i
-        print "PSI"
-        print self.parameterDict["psi"]
-        print "r"
-        print r[i]
-        print "VHF"
-        print Vhf[i]
-        print "xi"
-        print self.parameterDict["xi"]
-        
-        
-        factorSupplyArray [i] = self.parameterDict["psi"]*math.pow((r[i]*Vhf[i]),(1-self.parameterDict["xi"]))/(1-self.parameterDict["xi"])
+      for i in range(0,len(r)):
+          factorSupplyArray[i] = self.parameterDict["psi"]*math.pow((r[i]*Vhf[i]),(1-self.parameterDict["xi"]))/(1-self.parameterDict["xi"])
           
       sumFactorSupply = 0
       for j in range (0,len(factorSupplyArray)):
@@ -52,7 +42,8 @@ class Producer (object):
       for x in range (0,len(Xhg)):
           sumGoods += Xhg[x]
 
-      return sumFactorSupply - sumGoods                                                       
+      return sumFactorSupply - sumGoods
+    
 #objective
     def profitFct (self,inputList, p, r):
       Xhg = numpy.array(inputList[0:self.noOfGoods])
@@ -92,17 +83,20 @@ class Producer (object):
 
 #maximization
     def maxProfit (self,r,p):
+
+        print "--SOLVE PRODUCER.--------"
         x = len(p)+len(r)
         guess = numpy.empty(x)
         for i in range(0,x):
-            guess[i] = 1
+            guess[i] = 10
+            
         profitCon = {'type' : 'eq', 'fun' : self.prodtFct, 'args' : (p,r)}
         
         constraint = [{}]*(self.noOfGoods + self.noOfFactors +1)
         constraint[0] = profitCon
         for no in range (1, self.noOfGoods+self.noOfFactors +1):
             con = {'type' : 'ineq', 'fun' : self.constraint, 'args' :[no-1]}
-            print str(no-1) + "NO"
+            print str(no) + "NO Positivity Constraint"
             constraint[no] = con
         
         solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
@@ -113,4 +107,15 @@ class Producer (object):
             else :
                 sol[i] = solution.fun
         return sol
+
+
+
+dict = {"xi":0.5, "psi":0.5}
+p = Producer(1,1,1,dict,1)
+
+s = p.maxProfit([100],[100])
+
+print s
+
+
 
