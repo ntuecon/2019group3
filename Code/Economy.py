@@ -16,15 +16,16 @@ class Economy(object):
     
 
     def objective (self, inputList):
+        print "INPUTLIST ECONOMY:"
+        print inputList
         p = numpy.array(inputList[0:self.noOfGoods])
         r = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
         prodProfit = numpy.empty(len(self.askProd))
 
         consumedArray = numpy.empty(self.noOfGoods+self.noOfFactors)
         producedArray = numpy.empty(self.noOfGoods+self.noOfFactors)
-
         
-        #Producer problem 
+        #Producer problem
 
         for i in self.askProd :
             j = 0
@@ -59,12 +60,7 @@ class Economy(object):
         result = 0
 
         for i in range (0, self.noOfGoods+self.noOfFactors):
-		Q =(noOfGoods + noOfFactors - p - r)
-                for price in p:
-                    Q += 1 - p
-                for rprice in r:
-                    Q += 1 - rprice
-            result += pow(consumedArray[no]-producedArray[no],2) + sqrt(Q)
+            result += pow(consumedArray[no]-producedArray[no],2)
 
         return result
               
@@ -73,24 +69,23 @@ class Economy(object):
         return inputList[no]
         
     def findEquilibrium(self):
+        print "-------------------FIND EQUILIBRIUM------------------------"
         # Find prices and wages that minimize to 0 this difference
         #Try or guesses
         guess = numpy.empty(self.noOfGoods + self.noOfFactors)
+        for i in range (0,self.noOfGoods+self.noOfFactors):
+            guess[i] = 10
+
         #positivity constraints
-        
         constraintPos = [{}]*(self.noOfGoods + self.noOfFactors)
         for no in range (0, self.noOfGoods+self.noOfFactors):
             con = {'type' : 'ineq', 'fun' : self.constraint, 'args' :[no]}
-            print str(no) + "NO"
+            print str(no) + "NO ECONOMY POSITIVITY CONSTRAINT"
             constraintPos[no] = con
             
         
         sol = minimize (self.objective,guess,args = ( ) , method ='SLSQP', constraints = constraintPos)
         
 
-        return sol.x
-
-
+        return sol
   
-
-
