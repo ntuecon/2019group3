@@ -31,8 +31,6 @@ print "Consumer created"
 #producer objects will be created
 producerArray = [Producer]*value.noOfProducers
 for p in range(0,len(producerArray)):
-    print "NOOFPROAÖSDFAJSD"
-    print value.prodOfCon[0]
     producerArray[p] = Producer(value.noOfProducers, value.noOfGoods, value.noOfFactors, value.parameterProd[p], value.goodProd[p])
 
 print "Producer created"
@@ -46,5 +44,5 @@ print "Economy created"
 #findEquilibrium() method will be called to let the equilibrium be calculated
 
 solution = economy.findEquilibrium()
+print "------ PRINT SOLUTION------"""
 print solution
-
