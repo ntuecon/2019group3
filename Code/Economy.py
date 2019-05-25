@@ -88,4 +88,51 @@ class Economy(object):
         
 
         return sol
-  
+
+    
+    def calculateGini(self,p,r):
+
+    """ This method calculates the gini coefficient of the repective economy"""
+    
+        #array to save all incomes of consumers
+        valueArray = numpy.empty(len(self.askCon))
+
+        #calculate the profit of producers 
+        prodProfit = numpy.empty(len(self.askProd))
+        #for every producer calculate the profit for given p and r
+        for i in self.askProd :
+            j = 0
+            answerProd = i.maxProfit (p,r)
+            prodProfit[j] = answerProd [self.noOfGoods+self.noOfFactors]
+            j += 1
+
+        #Redistribution of profit
+        conProfit = numpy.empty(len(self.askCon))
+        for i in self.askCon :
+            j = 0
+            if i.noProducer == 0 :
+                conProfit[j] = 0
+            else :
+                conProfit[j] = prodProfit[i.noProducer-1]
+            j += 1
+        
+        #calculate the income of consumers for the optimal prices p,r
+        j = 0
+        for i in self.askCon:
+            answerCon = i.maxUtility (conProfit[j],p,r)
+            #calculate the budget the consumer gets from supplying factors
+            for m in range(self.noOfGoods,self.noOfGoods+self.noOfFactors):
+                valueArray[j] += answerCon[j]*r[m-self.noOfGoods]
+            #adding budget from the profit gained of producers
+            valueArray[j] += conProfit[j]
+            j+=1
+
+        #calculate gini coefficent with the help of this script https://planspacedotorg.wordpress.com/2013/06/21/how-to-calculate-gini-coefficient-from-raw-data-in-python/
+
+        valueArray = sorted(valueArray)
+        height, area = 0,0
+        for value in valueArray:
+            height += value
+            area += height - value / 2.
+        fair_area = height * len(valueArray)
+        return (fair_area - area) / fair_area
