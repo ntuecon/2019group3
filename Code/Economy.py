@@ -69,6 +69,8 @@ class Economy(object):
         return inputList[no]
         
     def findEquilibrium(self):
+    """ This method calculates the prices for which the respective economy is in an equilibrium """
+    
         print "-------------------FIND EQUILIBRIUM------------------------"
         # Find prices and wages that minimize to 0 this difference
         #Try or guesses
@@ -89,11 +91,8 @@ class Economy(object):
 
         return sol
 
-    
-    def calculateGini(self,p,r):
-
-    """ This method calculates the gini coefficient of the repective economy"""
-    
+    def getIncome(self, p,r):
+    """ This method calculates the income of consumers and returns them in an array for given prices """
         #array to save all incomes of consumers
         valueArray = numpy.empty(len(self.askCon))
 
@@ -127,6 +126,13 @@ class Economy(object):
             valueArray[j] += conProfit[j]
             j+=1
 
+
+    
+    def calculateGini(self, valueArray):
+
+    """ This method calculates the gini coefficient of the repective economy"""
+    
+        
         #calculate gini coefficent with the help of this script https://planspacedotorg.wordpress.com/2013/06/21/how-to-calculate-gini-coefficient-from-raw-data-in-python/
 
         valueArray = sorted(valueArray)
@@ -136,3 +142,27 @@ class Economy(object):
             area += height - value / 2.
         fair_area = height * len(valueArray)
         return (fair_area - area) / fair_area
+
+
+
+    def s80_s20 (self, valueArray):
+        """ This method returns the S80/S20 measure of the respective economy"""
+
+        valueArray = sorted(valueArray)
+        quantil = len(valueArray)/5
+        quantil = round(quantil,0)
+
+        #calculate income of poorest 20 percent
+        sumPoor = 0
+        for i in range(0,quantil):
+            sumPoor += i
+
+        #calculate income of richest 20 percent
+        sumRich = 0
+        for i in range(len(valueArray)-quantil, len(valueArray)):
+            sumRich += i
+
+        return sumRich/sumPoor
+            
+        
+        
