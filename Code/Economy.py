@@ -20,8 +20,8 @@ class Economy(object):
         r = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
         prodProfit = numpy.empty(len(self.askProd))
 
-        consumedArray = numpy.empty(self.noOfGoods+self.noOfFactors)
-        producedArray = numpy.empty(self.noOfGoods+self.noOfFactors)
+        consumedArray = numpy.zeros(self.noOfGoods+self.noOfFactors)
+        producedArray = numpy.zeros(self.noOfGoods+self.noOfFactors)
 
         
         #Producer problem 
@@ -35,7 +35,7 @@ class Economy(object):
             j += 1
 
         #Redistribution of profit
-        conProfit = numpy.empty(len(self.askCon))
+        conProfit = numpy.zeros(len(self.askCon))
         for i in self.askCon :
             j = 0
             if i.noProducer == 0 :
@@ -62,7 +62,7 @@ class Economy(object):
 		Q =(noOfGoods + noOfFactors - p - r)
                 for price in p:
                     Q += 1 - p
-                for rprice in r:
+                for r price in r:
                     Q += 1 - rprice
             result += pow(consumedArray[no]-producedArray[no],2) + sqrt(Q)
 
@@ -75,7 +75,7 @@ class Economy(object):
     def findEquilibrium(self):
         # Find prices and wages that minimize to 0 this difference
         #Try or guesses
-        guess = numpy.empty(self.noOfGoods + self.noOfFactors)
+        guess = numpy.zeros(self.noOfGoods + self.noOfFactors)
         #positivity constraints
         
         constraintPos = [{}]*(self.noOfGoods + self.noOfFactors)
