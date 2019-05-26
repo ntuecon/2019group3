@@ -62,9 +62,10 @@ class Economy(object):
 		Q =(noOfGoods + noOfFactors - p - r)
                 for price in p:
                     Q += 1 - p
-                for r price in r:
+                for rprice in r:
                     Q += 1 - rprice
-            result += pow(consumedArray[no]-producedArray[no],2) + sqrt(Q)
+                result += pow(consumedArray[no]-producedArray[no],2) + sqrt(Q)
+        return result
 
         return result
               
