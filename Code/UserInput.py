@@ -54,14 +54,14 @@ class UserInput (object):
             prodOfConsumer = int(raw_input("Which producers profit goes to this consumer?"))
             alphaArray = numpy.empty(noOfGoods)
             for j in range(0, noOfGoods):
-                alpha = float(raw_input( "What do you want alpha to be?" ))
+                alpha = float(raw_input( "What do you want alpha to be? Must be greater than 0, unless this good is a bad" ))
                 alphaArray[j] = alpha
-            beta = float(raw_input ( "What do you want beta to be?" ))
-            gamma = float(raw_input ( "What do you want gamma to be?" ))
-            sigma = float(raw_input ( "What do you want sigma to be?" ))
+            beta = float(raw_input ( "What do you want beta to be? Must be greater than 0, unless the consumer likes to give away this factor" ))
+            gamma = float(raw_input ( "What do you want gamma to be? Must be greater than 0"))
+            sigma = float(raw_input ( "What do you want sigma to be? Must be greater than 0, and LESS than 1" ))
             thetaArray = numpy.empty(noOfFactors)
             for k in range (0, noOfFactors):
-                theta = float(raw_input ( "What do you want theta to be? "))
+                theta = float(raw_input ( "What do you want theta to be? Must be greater than -1"))
                 thetaArray[k] = theta
 
             consumerDict = {"alpha" : alphaArray, "beta" : beta, "gamma" : gamma, "sigma" : sigma, "theta" : thetaArray}
