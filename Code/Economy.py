@@ -32,7 +32,7 @@ class Economy(object):
             answerProd = i.maxProfit (p,r)
             for no in  range (0, self.noOfGoods+self.noOfFactors):
                 producedArray[no] += answerProd[no]
-            prodProfit[j] = answerProd [self.noOfGoods+self.noOfFactors]
+            prodProfit[j] = answerProd [self.noOfGoods+self.noOfFactors]*(-1)
             j += 1
 
         #Redistribution of profit
@@ -63,13 +63,15 @@ class Economy(object):
             result += pow(consumedArray[no]-producedArray[no],2)
 
         return result
+
+
               
     #positivity condition
     def constraint(self, inputList,no):
         return inputList[no]
         
     def findEquilibrium(self):
-    """ This method calculates the prices for which the respective economy is in an equilibrium """
+        """ This method calculates the prices for which the respective economy is in an equilibrium """
     
         print "-------------------FIND EQUILIBRIUM------------------------"
         # Find prices and wages that minimize to 0 this difference
@@ -92,7 +94,7 @@ class Economy(object):
         return sol
 
     def getIncome(self, p,r):
-    """ This method calculates the income of consumers and returns them in an array for given prices """
+        """ This method calculates the income of consumers and returns them in an array for given prices """
         #array to save all incomes of consumers
         valueArray = numpy.empty(len(self.askCon))
 
@@ -119,18 +121,27 @@ class Economy(object):
         j = 0
         for i in self.askCon:
             answerCon = i.maxUtility (conProfit[j],p,r)
+            print "INCOME"
             #calculate the budget the consumer gets from supplying factors
             for m in range(self.noOfGoods,self.noOfGoods+self.noOfFactors):
+                print answerCon[j]
+                print r[m-self.noOfGoods]
                 valueArray[j] += answerCon[j]*r[m-self.noOfGoods]
+                print valueArray[j]
             #adding budget from the profit gained of producers
-            valueArray[j] += conProfit[j]
+            valueArray[j] += conProfit[j]*(-1)
             j+=1
+        print conProfit[0]
+
+        print "VALUE"
+        print valueArray[0]
+
+        return valueArray
 
 
     
     def calculateGini(self, valueArray):
-
-    """ This method calculates the gini coefficient of the repective economy"""
+        """ This method calculates the gini coefficient of the repective economy"""
     
         
         #calculate gini coefficent with the help of this script https://planspacedotorg.wordpress.com/2013/06/21/how-to-calculate-gini-coefficient-from-raw-data-in-python/
@@ -163,6 +174,4 @@ class Economy(object):
             sumRich += i
 
         return sumRich/sumPoor
-            
-        
         
