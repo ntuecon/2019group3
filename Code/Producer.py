@@ -28,11 +28,10 @@ class Producer (object):
       Vhf = numpy.array(inputList[self.noOfGoods : self.noOfGoods+self.noOfFactors])
 
       factorSupplyArray = numpy.empty(len(r))
-      print "INPUTLIST PRODUCER:"
-      print inputList
+      
 
       for i in range(0,len(r)):
-          factorSupplyArray[i] = self.parameterDict["psi"]*math.pow((r[i]*Vhf[i]),(1-self.parameterDict["xi"]))/(1-self.parameterDict["xi"])
+          factorSupplyArray[i] = self.parameterDict["psi"]*(math.pow((Vhf[i]),(1-self.parameterDict["xi"]))/(1-self.parameterDict["xi"]))
           
       sumFactorSupply = 0
       for j in range (0,len(factorSupplyArray)):
@@ -48,6 +47,8 @@ class Producer (object):
     def profitFct (self,inputList, p, r):
       Xhg = numpy.array(inputList[0:self.noOfGoods])
       Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
+      print " INPUTLIST PRODUCER"
+      print inputList
 
   
       #p*Xhg for every good
@@ -73,7 +74,7 @@ class Producer (object):
 
       # Total profits = Xhg*p - r *Vhf      
 
-      profits =sumGoodBudget - sumFactorProfit
+      profits = sumGoodBudget - sumFactorProfit
 
       return (-1)*profits
 
@@ -100,22 +101,19 @@ class Producer (object):
             constraint[no] = con
         
         solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
+
+        print "Proft Producer"
+        print solution.fun
+
         sol = numpy.empty(self.noOfGoods+self.noOfFactors+1)
         for i in range (0, self.noOfGoods+self.noOfFactors+1):
             if i < (self.noOfGoods +self.noOfFactors):
                 sol[i] = solution.x[i]
             else :
                 sol[i] = solution.fun
+                
+        
         return sol
-
-
-
-dict = {"xi":0.5, "psi":0.5}
-p = Producer(1,1,1,dict,1)
-
-s = p.maxProfit([100],[100])
-
-print s
 
 
 
