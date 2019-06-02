@@ -31,7 +31,10 @@ class Producer (object):
       
 
       for i in range(0,len(r)):
-          factorSupplyArray[i] = self.parameterDict["psi"]*(math.pow((Vhf[i]),(1-self.parameterDict["xi"]))/(1-self.parameterDict["xi"]))
+          if Vhf[i] >= 0:
+              factorSupplyArray[i] = self.parameterDict["psi"]*(math.pow((Vhf[i]),(1-self.parameterDict["xi"]))/(1-self.parameterDict["xi"]))
+          else :
+              factorSupplyArray[i] = -100000
           
       sumFactorSupply = 0
       for j in range (0,len(factorSupplyArray)):
@@ -95,10 +98,10 @@ class Producer (object):
         
         constraint = [{}]*(self.noOfGoods + self.noOfFactors +1)
         constraint[0] = profitCon
-        for no in range (1, self.noOfGoods+self.noOfFactors +1):
-            con = {'type' : 'ineq', 'fun' : self.constraint, 'args' :[no-1]}
+        for no in range (0, self.noOfGoods+self.noOfFactors ):
+            con = {'type' : 'ineq', 'fun' : self.constraint, 'args' :[no]}
             print str(no) + "NO Positivity Constraint"
-            constraint[no] = con
+            constraint[no+1] = con
         
         solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
 
@@ -114,6 +117,3 @@ class Producer (object):
                 
         
         return sol
-
-
-
