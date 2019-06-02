@@ -24,6 +24,9 @@ class Economy(object):
 
         consumedArray = numpy.empty(self.noOfGoods+self.noOfFactors)
         producedArray = numpy.empty(self.noOfGoods+self.noOfFactors)
+        for no in  range (0, self.noOfGoods+self.noOfFactors):
+            consumedArray[no] = 0
+            producedArray [no] = 0
         
         #Producer problem
 
@@ -32,7 +35,7 @@ class Economy(object):
             answerProd = i.maxProfit (p,r)
             for no in  range (0, self.noOfGoods+self.noOfFactors):
                 producedArray[no] += answerProd[no]
-            prodProfit[j] = answerProd [self.noOfGoods+self.noOfFactors]*(-1)
+                prodProfit[j] = answerProd [self.noOfGoods+self.noOfFactors]*(-1)
             j += 1
 
         #Redistribution of profit
@@ -61,6 +64,8 @@ class Economy(object):
 
         for i in range (0, self.noOfGoods+self.noOfFactors):
             result += pow(consumedArray[no]-producedArray[no],2)
+            print "RESULT of Market Clearance: " + srt(i)
+            print result
 
         return result
 
@@ -78,7 +83,7 @@ class Economy(object):
         #Try or guesses
         guess = numpy.empty(self.noOfGoods + self.noOfFactors)
         for i in range (0,self.noOfGoods+self.noOfFactors):
-            guess[i] = 10
+            guess[i] = 5
 
         #positivity constraints
         constraintPos = [{}]*(self.noOfGoods + self.noOfFactors)
@@ -174,4 +179,3 @@ class Economy(object):
             sumRich += i
 
         return sumRich/sumPoor
-        
