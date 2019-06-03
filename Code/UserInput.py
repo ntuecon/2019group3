@@ -1,7 +1,6 @@
 """
 @author Michelle Pfister
 @version 1.0
-
 """
 import numpy
 
@@ -42,8 +41,8 @@ class UserInput (object):
         for i in range(0,noOfProducers) :
             print "You define producer " + str(i+1) + " now"
             goodProducer = int(raw_input("Which product should this producer produce?"))
-            xi = float(raw_input ( "What do you want xi, the elasticity of the product, to be? Needs to be 0 and 1. We recommend 0.5, if you the input is closer to 0, then it becomes very elastic, and closer or above 1, it becomes very unelastic")
-            psi = float(raw_input ( "What do you want psi, the technology or effiency of the product, to be? "))
+            xi = float(raw_input ( "What do you want xi, the elasticity of the product, to be? Needs to be 0 and 1. We recommend 0.5, if you the input is closer to 0, then it becomes very elastic, and closer or above 1, it becomes very unelastic"))
+            psi = float (raw_input ("What do you want psi, the technology or efficiency of the product, to be"))
             producerDict = {"xi" : xi, "psi" : psi}
             goodProd[i] = goodProducer
             parameterProd[i] = producerDict
@@ -91,5 +90,3 @@ class Values(object):
         self.parameterCon = parameterCon
         self.parameterProd = parameterProd
         self.goodProd = goodProd
-        
-        
