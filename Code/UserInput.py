@@ -67,7 +67,7 @@ class UserInput (object):
             # It is ln (multiplier of xi to alphai), but we used the function of the sum of alpha i of ln (xi)
             thetaArray = numpy.empty(noOfFactors)
             for k in range (0, noOfFactors):
-                theta = float(raw_input ( "What do you want theta, the elasticity of factors, to be? Must be greater than -1"))
+                theta = float(raw_input ( "What do you want theta, the elasticity of factors, to be? Must be greater than -1, we recommend higher than 0 and less than 1"))
                 thetaArray[k] = theta
 
             consumerDict = {"alpha" : alphaArray, "beta" : beta, "gamma" : gamma, "sigma" : sigma, "theta" : thetaArray}
