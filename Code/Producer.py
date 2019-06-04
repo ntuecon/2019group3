@@ -48,6 +48,8 @@ class Producer (object):
     
 #objective
     def profitFct (self,inputList, p, r):
+        
+      
       Xhg = numpy.array(inputList[0:self.noOfGoods])
       Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
       print " INPUTLIST PRODUCER"
@@ -58,6 +60,7 @@ class Producer (object):
       goodArray = numpy.empty(len(p))
       for j in range(0,len(goodArray)):
           goodArray[j] = p[j]*Xhg[j]
+
 
       #sum of money spent on goods for consumer
       sumGoodBudget = 0
@@ -73,6 +76,7 @@ class Producer (object):
       sumFactorProfit = 0
       for k in range(0,len(factorArray)):
           sumFactorProfit += factorArray[k]
+          
 
 
       # Total profits = Xhg*p - r *Vhf      
@@ -86,23 +90,24 @@ class Producer (object):
         return inputList[no]
 
 #maximization
-    def maxProfit (self,r,p):
+    def maxProfit (self,p,r):
 
         print "--SOLVE PRODUCER.--------"
         x = len(p)+len(r)
         guess = numpy.empty(x)
         for i in range(0,x):
-            guess[i] = 10
+            guess[i] = 100
             
         profitCon = {'type' : 'eq', 'fun' : self.prodtFct, 'args' : (p,r)}
-        
+        constraint = [profitCon]
+        """
         constraint = [{}]*(self.noOfGoods + self.noOfFactors +1)
         constraint[0] = profitCon
         for no in range (0, self.noOfGoods+self.noOfFactors ):
             con = {'type' : 'ineq', 'fun' : self.constraint, 'args' :[no]}
             print str(no) + "NO Positivity Constraint"
             constraint[no+1] = con
-        
+        """
         solution = minimize(self.profitFct, guess, args = (p,r), method = 'SLSQP', constraints = constraint)
 
         print "Proft Producer"
