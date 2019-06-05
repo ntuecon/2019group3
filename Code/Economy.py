@@ -16,7 +16,7 @@ class Economy(object):
     
 
     def objective (self, inputList):
-        print "INPUTLIST ECONOMY:"
+        print "INPUTLIST ECONOMY:_______________________________________________"
         print inputList
         p = numpy.array(inputList[0:self.noOfGoods])
         r = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
@@ -54,7 +54,9 @@ class Economy(object):
 
         j = 0
         for i in self.askCon:
-            answerCon =i.maxUtility (conProfit[j],p,r )
+            print "THE CONSUMERS PROFIT IS"
+            print conProfit[j]
+            answerCon =i.maxUtility ((-1)*conProfit[j],p,r )
             for no in  range (0, self.noOfGoods+self.noOfFactors):
                 consumedArray[no] += answerCon [no]
             j += 1
@@ -63,17 +65,13 @@ class Economy(object):
         result = 0
 
         for i in range (0, self.noOfGoods+self.noOfFactors):
-            result += pow(consumedArray[no]-producedArray[no],2)
-            print "RESULT of Market Clearance: " + srt(i)
+            result += pow(consumedArray[i]-producedArray[i],2)
+            print "RESULT of Market Clearance: " + str(i)
             print result
 
         return result
 
 
-              
-    #positivity condition
-    def constraint(self, inputList,no):
-        return inputList[no]
         
     def findEquilibrium(self):
         """ This method calculates the prices for which the respective economy is in an equilibrium """
@@ -83,17 +81,9 @@ class Economy(object):
         #Try or guesses
         guess = numpy.empty(self.noOfGoods + self.noOfFactors)
         for i in range (0,self.noOfGoods+self.noOfFactors):
-            guess[i] = 5
-
-        #positivity constraints
-        constraintPos = [{}]*(self.noOfGoods + self.noOfFactors)
-        for no in range (0, self.noOfGoods+self.noOfFactors):
-            con = {'type' : 'ineq', 'fun' : self.constraint, 'args' :[no]}
-            print str(no) + "NO ECONOMY POSITIVITY CONSTRAINT"
-            constraintPos[no] = con
-            
+            guess[i] = 50
         
-        sol = minimize (self.objective,guess,args = ( ) , method ='SLSQP', constraints = constraintPos)
+        sol = minimize (self.objective,guess,args = ( ) , method ='Nelder-Mead')
         
 
         return sol
@@ -179,5 +169,3 @@ class Economy(object):
             sumRich += i
 
         return sumRich/sumPoor
-
-
