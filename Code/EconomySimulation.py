@@ -46,3 +46,15 @@ print "Economy created"
 solution = economy.findEquilibrium()
 print "------ PRINT SOLUTION------"""
 print solution
+
+p = numpy.array(solution.x[0:economy.noOfGoods])
+r = numpy.array(solution.x[economy.noOfGoods: economy.noOfGoods+ economy.noOfFactors])
+
+valueArray = economy.getIncome(p,r)
+
+print "ValueArray"
+print valueArray
+
+gini = economy.calculateGini(valueArray)
+
+print gini
