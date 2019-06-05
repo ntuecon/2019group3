@@ -23,8 +23,8 @@ class Consumer (object):
     
     def utilityFunction (self,inputList):
 
-        print "INPUTLIST CONSUMER:"
-        print inputList
+        #print "INPUTLIST CONSUMER:"
+        #print inputList
         
         #seperate good array (Xhg) from factor array (Vhf) goods come first
         Xhg = numpy.array(inputList[0:self.noOfGoods])
@@ -57,6 +57,7 @@ class Consumer (object):
 
         #combining both parts to calculate utiliy
         utility = goodUtility - factorUtility
+
 
         return utility
 
@@ -111,21 +112,21 @@ class Consumer (object):
         guess = numpy.empty(x)
         
         for i in range(0,x):
-            guess[i] = 10
+            guess[i] = 100
             
         budgetCon = {'type' : 'eq', 'fun' : self.budgetConstraint, 'args' : (pi,p,r,)}
         constraint = [{}]*(self.noOfGoods + self.noOfFactors +1)
         constraint[0] = budgetCon
         for no in range (1, self.noOfGoods+self.noOfFactors +1):
             con = {'type' : 'ineq', 'fun' : self.constraint, 'args' :[no-1]}
-            print str(no) + "NO Positivity Constraint"
             constraint[no] = con
+
             
         solution = minimize(self.invertedUtility, guess, args = (pi,p,r), method = 'SLSQP', constraints = constraint)
+        print "UTILITY Consumer"
+        print solution.fun
+        print solution.x
         return solution.x
-
-
-    
 
 
     
