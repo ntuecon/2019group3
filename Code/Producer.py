@@ -52,8 +52,8 @@ class Producer (object):
       
       Xhg = numpy.array(inputList[0:self.noOfGoods])
       Vhf = numpy.array(inputList[self.noOfGoods: self.noOfGoods+ self.noOfFactors])
-      print " INPUTLIST PRODUCER"
-      print inputList
+      #print " INPUTLIST PRODUCER"
+      #print inputList
 
   
       #p*Xhg for every good
@@ -92,7 +92,7 @@ class Producer (object):
 #maximization
     def maxProfit (self,p,r):
 
-        print "--SOLVE PRODUCER.--------"
+        print "----------START SOLVING PRODUCER PROBLEM--------"
         x = len(p)+len(r)
         guess = numpy.empty(x)
         for i in range(0,x):
@@ -118,7 +118,7 @@ class Producer (object):
             if i < (self.noOfGoods +self.noOfFactors):
                 sol[i] = solution.x[i]
             else :
-                sol[i] = solution.fun
+                sol[i] = (-1)*solution.fun
                 
-        
+        print sol
         return sol
