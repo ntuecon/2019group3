@@ -13,7 +13,8 @@ class Producer (object):
           noOfGoods, noOfFactors : number of goods and factors in this economy 
           parameterDict : dictonary that contains all parameters that define the production function (Fi= total of goods, Xi,Psi) )
           producedGood : which good will be produced by the producer"""
-      
+    
+    
       self.noProducer = noProducer
       self.noOfGoods = noOfGoods
       self.noOfFactors = noOfFactors
